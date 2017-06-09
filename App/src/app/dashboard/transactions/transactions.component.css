@@ -1,0 +1,24 @@
+.has-text-centered {
+    text-align: center;
+}
+
+.ngx-pagination a, .ngx-pagination button  {
+    color: #0a0a0a;
+    display: block;
+    padding: 0.1875rem 0.625rem;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+
+.pagination-info > li.active > a:hover, .pagination-info > li.active > span:hover, .pagination-info > li.active > a:focus, .pagination-info > li.active > span:focus {
+    background-color: #68B3C8;
+    border-color: #68B3C8;
+    color: #FFFFFF;
+}
+
+
+.progress {
+     margin-bottom: 0px;
+     height: 10px;
+}

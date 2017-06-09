@@ -1,0 +1,41 @@
+
+
+<div class="wrapper">
+    <div class="sidebar" data-background-color="white" data-active-color="info">
+        <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+        <div class="sidebar-wrapper">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                    BankA
+                </a>
+                </div>
+                <accounts-summary></accounts-summary>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+<ng-loading-bar></ng-loading-bar>
+                <router-outlet></router-outlet>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        v0.2.0
+                    </li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+</div>

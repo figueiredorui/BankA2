@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="header">
+        <h4 class="title">Monthly Cash Flow</h4>
+        <p class="category"> Last 12 Months</p>
+      </div>
+      <div class="content" >
+        
+        <canvas *ngIf="transactions" baseChart width="400" height="50" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+      </div>
+
+      <div class="footer">
+        <div class="stats">
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

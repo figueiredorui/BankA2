@@ -1,0 +1,43 @@
+{
+  "name": "banka-desktop",
+  "version": "1.0.0",
+  "description": "banka-desktop",
+  "author": "rui",
+  "repository": "https://github.com/figueiredorui/BankA2.git",
+  "license": "MIT",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^1.4.1",
+    "electron-builder": "^14.5.3"
+  },
+  "dependencies": {
+    "electron-is-dev": "^0.1.2"
+  },
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "electron .",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "banka-desktop",
+    "directories": {
+      "buildResources": "assets",
+      "output": "../dist"
+    },
+    "extraResources": {
+      "from": "api/",
+      "to": "api",
+      "filter": [
+        "**/*"
+      ]
+    },
+    "mac": {
+      "category": "banka-desktop"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  }
+}
