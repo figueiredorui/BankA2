@@ -1,22 +1,22 @@
 <ul class="nav">
 
   <li *ngFor="let account of Accounts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-    <a [routerLink]="['account', account.AccountID, view]">
+    <a [routerLink]="['account', account.AccountId, view]">
       <i class="fa fa-th-large " aria-hidden="true"> </i>
       <p> {{account.Description}}</p>
     </a>
     <div>
 
-      <small>£ {{account.Balance}}</small>
-      <button class="btn btn-sm btn-success btn-simple edit-account" (click)=editAccount(account.AccountID)><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+      <small>Balance: £{{account.Balance}}</small>
+      <button class="btn btn-link edit-account" (click)=editAccount(account.AccountId)><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
     </div>
 
     <div class="separator"></div>
   </li>
   <li>
-    <button class="btn btn-sm btn-success btn-fill btn-icon add-account pull-right" 
+    <button class="btn btn-link add-account" 
     data-toggle="tooltip" data-placement="bottom" title="Add Account"
-     (click)=addAcount()><i class="fa fa-plus"></i></button>
+     (click)=addAcount()><em class="fa fa-plus"></em> Add account</button>
 
   </li>
 </ul>

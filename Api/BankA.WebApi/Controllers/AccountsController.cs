@@ -19,11 +19,13 @@ namespace BankA.Api.Controllers
     {
         private readonly AccountRepository accountRepository;
         private readonly FilesRepository fileRepository;
+        private readonly TransactionRepository transactionRepository;
 
         public AccountsController()
         {
             this.accountRepository = new AccountRepository(this.User?.Identity?.Name);
             this.fileRepository = new FilesRepository(this.User?.Identity?.Name);
+            this.transactionRepository = new TransactionRepository(this.User?.Identity?.Name);
         }
 
         // GET: api/Accounts
@@ -41,13 +43,13 @@ namespace BankA.Api.Controllers
             }
         }
 
-        // GET: api/Accounts/Summary
-        [HttpGet("Summary")]
-        public IActionResult GetSummary()
+        // GET: api/Accounts/5/Summary
+        [HttpGet("{id}/Summary")]
+        public IActionResult GetSummary(int id)
         {
             try
             {
-                var result = accountRepository.GetAccountSummary();
+                var result = accountRepository.GetAccountSummary(id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -77,7 +79,37 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = accountRepository.GetMonthlyCashFlow(id);
+                var result = transactionRepository.GetMonthlyCashFlow(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        // GET: api/Accounts/5/Expenses
+        //[HttpGet("{id}/Expenses")]
+        //public IActionResult GetExpenses(int id)
+        //{
+        //    try
+        //    {
+        //        var result = transactionRepository.GetExpenses(id, DateTime.MinValue, DateTime.MaxValue);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return HandleException(ex);
+        //    }
+        //}
+
+        // GET: api/Accounts/5/Expenses
+        [HttpGet("{id}/TagExpenses")]
+        public IActionResult GetTagExpenses(int id)
+        {
+            try
+            {
+                var result = transactionRepository.GetTagExpenses(id, DateTime.MinValue, DateTime.MaxValue);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -113,7 +145,7 @@ namespace BankA.Api.Controllers
                 }
 
                 account = accountRepository.Add(account);
-                return CreatedAtRoute("Get", new { id = account.AccountID }, account);
+                return CreatedAtRoute("Get", new { id = account.AccountId }, account);
                 //return Ok(account);
             }
             catch (Exception ex)
@@ -143,7 +175,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = accountRepository.GetTransactions(id, search);
+                var result = transactionRepository.GetTransactions(id, search);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -220,7 +252,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = accountRepository.GetTags(accountId);
+                var result = transactionRepository.GetTags(accountId);
                 return Ok(result);
             }
             catch (Exception ex)

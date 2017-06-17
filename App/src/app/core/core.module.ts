@@ -3,10 +3,13 @@ import { NgModule} from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
     import { BootstrapModalModule } from 'ng2-bootstrap-modal';
     import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+    import { SparklineDirective } from './directives/sparkline.directive';
+    import { HttpApiService } from './services/http-api.service';
     
     @NgModule({
       declarations: [
-        ConfirmationDialogComponent
+        ConfirmationDialogComponent,
+        SparklineDirective
       ],
       imports: [
         CommonModule,
@@ -17,6 +20,9 @@ import { NgModule} from '@angular/core';
       entryComponents: [
         ConfirmationDialogComponent
       ],
-      exports:[ConfirmationDialogComponent]
+      exports:[
+        ConfirmationDialogComponent,
+        SparklineDirective
+      ]
     })
 export class CoreModule { }

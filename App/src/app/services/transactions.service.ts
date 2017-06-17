@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { BaseService } from './base.service';
-import { TransactionResult, CashFlow, TransactionSearch, Transaction, ImportCsvDefinition } from '../dashboard/dashboard.types';
+import { HttpApiService } from '../core/services/http-api.service';
+import { TransactionResult, CashFlow, TagExpenses, TransactionSearch, Transaction, ImportCsvDefinition } from '../dashboard/dashboard.types';
 
 @Injectable()
-export class TransactionsService extends BaseService {
+export class TransactionsService extends HttpApiService {
 
   constructor(private http: Http) { super(); }
 
@@ -21,6 +21,13 @@ export class TransactionsService extends BaseService {
 
   public getCashFlow(id: number): Observable<CashFlow[]> {
     const url = `${this.baseUrl}/accounts/${id}/cashflow`;
+    return this.http.get(url)
+      .map(response => response.json() as any)
+      .catch(super.handleError);
+  }
+
+  public getTagExpenses(id: number): Observable<TagExpenses[]> {
+    const url = `${this.baseUrl}/accounts/${id}/TagExpenses`;
     return this.http.get(url)
       .map(response => response.json() as any)
       .catch(super.handleError);

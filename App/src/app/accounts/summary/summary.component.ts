@@ -57,7 +57,7 @@ export class SummaryComponent implements OnInit {
   }
 
   private LoadSummary() {
-    this.accountService.getSummary()
+    this.accountService.getList()
       .subscribe(data => {
         this.Accounts = data;
       }, err => {

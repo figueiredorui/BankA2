@@ -5,11 +5,11 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { BaseService } from './base.service';
+import { HttpApiService } from '../core/services/http-api.service';
 import { Account } from '../accounts/accounts.types';
 
 @Injectable()
-export class FileService extends BaseService {
+export class FileService extends HttpApiService {
 
   constructor(private http: Http) { super(); }
 

@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, BaseRequestOptions, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 
-export class BaseService {
+export class HttpApiService {
 
-  protected baseUrl = 'http://localhost:5000/api';
+  protected baseUrl = environment.apiUrl;
 
   constructor() {
 
-    if (environment.production) {
-      this.baseUrl = '/api/api';
-    }
   }
 
   protected handleError(error: any): Promise<any> {

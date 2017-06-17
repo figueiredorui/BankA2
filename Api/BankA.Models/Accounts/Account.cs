@@ -8,9 +8,10 @@ namespace BankA.Models.Accounts
 {
     public class Account
     {
-        public int AccountID { get; set; }
+        public int AccountId { get; set; }
         public string Description { get; set; }
         public string ImportCsvDefinition { get; set; }
         public bool Closed { get; set; }
+        public decimal Balance { get; set; }
     }
 }

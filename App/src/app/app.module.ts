@@ -3,19 +3,19 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardModule } from './dashboard/dashboard.module';
-import { AccountsModule } from './accounts/accounts.module';
-import { TagsModule } from './tags/tags.module';
+
 import { NgLoadingBarModule } from 'ng-loading-bar';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
-import { RequestOptionsProvider } from './services/base.service';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { AccountsModule } from './accounts/accounts.module';
+import { TagsModule } from './tags/tags.module';
+import { CoreModule } from './core/core.module';
+
+import { RequestOptionsProvider } from './core/services/http-api.service';
 
 import { AppComponent } from './app.component';
-
-
 
 /*
 load(
@@ -44,13 +44,14 @@ load(
     HttpModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    NgLoadingBarModule.forRoot(),
+    ToastModule.forRoot(),
     DashboardModule,
     AccountsModule,
     TagsModule,
-    NgLoadingBarModule.forRoot(),
-    ToastModule.forRoot()
+    CoreModule
   ],
-  providers: [RequestOptionsProvider, { provide: LOCALE_ID, useValue: 'en-GB' }],
+  providers: [ RequestOptionsProvider, { provide: LOCALE_ID, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

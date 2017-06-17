@@ -5,11 +5,11 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { BaseService } from './base.service';
+import { HttpApiService } from '../core/services/http-api.service';
 import { Tag } from '../tags/tag.types';
 
 @Injectable()
-export class TagService extends BaseService {
+export class TagService extends HttpApiService {
 
   constructor(private http: Http) { super(); }
 
@@ -22,13 +22,6 @@ public getTag(id: number): Observable<Tag> {
 
   public getTags(): Observable<Tag[]> {
     const url = `${this.baseUrl}/Tags`;
-    return this.http.get(url)
-      .map(response => response.json() as any)
-      .catch(super.handleError);
-  }
-
-  public getTagsByAccount(accountId: number): Observable<any>{
-    const url = `${this.baseUrl}/accounts/${accountId}/tags`;
     return this.http.get(url)
       .map(response => response.json() as any)
       .catch(super.handleError);

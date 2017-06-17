@@ -1,7 +1,7 @@
 
 
 .nav > li > a {
-    margin: 0px;
+    margin: 1px;
    padding-left: 35px;
     padding-right: 25px;
     padding-bottom: 0px;
@@ -9,7 +9,7 @@
 
 .nav > li  small {
     margin: 0px;
-   padding-left: 40px;
+   padding-left: 65px;
      
 }
 
@@ -28,11 +28,12 @@
    
 }
 
-.add-account{
-    margin-right: 20px;
-    margin-top: 10px;
-}
 
 .edit-account  {
     display:none;
+}
+
+.add-account{
+    margin-left: 25px;
+    margin-top: 10px;
 }

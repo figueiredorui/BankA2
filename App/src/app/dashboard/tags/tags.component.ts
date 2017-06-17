@@ -2,12 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
 
-import { TagService } from '../../services/tag.service';
+import { TransactionsService } from '../../services/transactions.service';
+import { TagExpenses } from '../dashboard.types';
 
 @Component({
   selector: 'dashboard-tags',
   templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.css']
+  styleUrls: ['./tags.component.scss']
 })
 export class TagsComponent implements OnInit {
 
@@ -17,10 +18,18 @@ export class TagsComponent implements OnInit {
   }
 
   public errorMsg: string;
-  public tags: any[];
+  public tagExpenses: Array<TagExpenses>;
+
+  public tagExpensesDetails: any = [1,3,4,7,5,9,4,4,7,5,9,6,4]
+  public sparkOptions1 = {
+        barColor: '#23b7e5',
+        height: 30,
+        barWidth: '5',
+        barSpacing: '2'
+    };
 
   constructor(
-    private tagService: TagService,
+    private transactionsService: TransactionsService,
     private route: ActivatedRoute
   ) { }
 
@@ -31,9 +40,13 @@ export class TagsComponent implements OnInit {
 
   
   private LoadTags(accountID) {
-    this.tagService.getTagsByAccount(accountID)
+    this.transactionsService.getTagExpenses(accountID)
       .subscribe(data => {
-        this.tags = data;
+        this.tagExpenses = data;
+
+        this.tagExpenses.forEach(element => {
+          element.MonthlyAmount = element.Details.map(m=>m.Amount);
+        });
 
       }, err => {
         this.errorMsg = err;

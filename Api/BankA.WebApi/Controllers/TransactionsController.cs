@@ -15,12 +15,12 @@ namespace BankA.Api.Controllers
     [Route("api/[controller]")]
     public class TransactionsController : BaseController
     {
-        private readonly TransactionsRepository transactionsRepository;
+        private readonly TransactionRepository transactionsRepository;
         private readonly FilesRepository filesRepository;
 
         public TransactionsController()
         {
-            this.transactionsRepository = new TransactionsRepository(this.User?.Identity?.Name);
+            this.transactionsRepository = new TransactionRepository(this.User?.Identity?.Name);
             this.filesRepository = new FilesRepository(this.User?.Identity?.Name);
         }
 

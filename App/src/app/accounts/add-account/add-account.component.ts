@@ -32,7 +32,7 @@ export class AddAccountComponent extends DialogComponent<AddAccountParam, boolea
         err => this.errorMsg = err);
     } else {
       this.account = {
-        AccountID: 0,
+        AccountId: 0,
         Description: '',
         ImportCsvDefinition:'',
         Closed: false
@@ -55,7 +55,7 @@ export class AddAccountComponent extends DialogComponent<AddAccountParam, boolea
   }
 
   public deleteAccount() {
-    this.accountService.deleteAccount(this.account.AccountID)
+    this.accountService.deleteAccount(this.account.AccountId)
       .subscribe(data => {
         this.account = data;
         this.result = true;

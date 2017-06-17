@@ -5,14 +5,18 @@ using System.Text;
 
 namespace BankA.Models.Reports
 {
-    public partial class MonthlyCashFlow
+    public partial class TagExpenses
+    {
+        public string Tag { get; set; }
+        public decimal Amount { get; set; }
+        public List<TagExpensesDetails> Details { get; set; }
+    }
+
+    public partial class TagExpensesDetails
     {
         public int Year { get; set; }
         public int Month { get; set; }
+        public decimal Amount { get; set; }
         public string MonthYear { get { return $"{DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(Month)}/{Year}"; } }
-        public decimal DebitAmount { get; set; }
-        public decimal CreditAmount { get; set; }
-        public decimal Balance { get { return CreditAmount - DebitAmount; } }
-
     }
 }

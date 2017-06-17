@@ -1,5 +1,5 @@
 export interface Account {
-    AccountID: number;
+    AccountId: number;
     Description: string;
     ImportCsvDefinition: string;
     Closed: boolean;

@@ -7,6 +7,7 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ChartsModule } from 'ng2-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2CompleterModule } from "ng2-completer";
+import { Daterangepicker } from 'ng2-daterangepicker';
 import { CoreModule } from "../core/core.module";
 
 import { TransactionsComponent } from './transactions/transactions.component';
@@ -19,6 +20,7 @@ import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirm
 
 import { TransactionsService } from '../services/transactions.service';
 import { FileService } from '../services/file.service';
+import { ColorsService } from '../core/services/colors.service';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { FileService } from '../services/file.service';
     BootstrapModalModule,
     NgxPaginationModule,
     Ng2CompleterModule,
+    Daterangepicker,
     CoreModule
   ],
   exports: [
@@ -38,7 +41,7 @@ import { FileService } from '../services/file.service';
     ImportComponent,
     ConfirmationDialogComponent
   ],
-  providers: [TransactionsService, FileService],
+  providers: [TransactionsService, FileService, ColorsService],
   declarations: [TransactionsComponent, ChartsComponent, ImportComponent, FilesComponent, HeaderComponent, TagsComponent]
 })
 export class DashboardModule { }

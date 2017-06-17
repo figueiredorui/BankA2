@@ -1,85 +1,7 @@
 
-.main-panel > .content {
-    padding: 0px 15px;
-    min-height: calc(100% - 123px);
-}
-
-.navbar-default {
-    background-color: #f4f3ef;
-     border-bottom: 0px solid #DDDDDD; 
-}
-
-.sidebar-wrapper .nav > li {
-    position: relative;
-    display: block;
-     
-}
-
-.sidebar-wrapper .nav > li .separator {
-    border-bottom: beige 1px solid;
-        margin: 0 20px;
-        padding-top: 7px;
-}
-
-.sidebar .nav i, .off-canvas-sidebar .nav i {
-    font-size: 14px;
-    float: left;
-    margin-right: 0px;
-    line-height: 30px;
-    width: 30px;
-    text-align: center;
-}
-
-
-
-.sidebar .nav li.active > a:before,
-      .off-canvas-sidebar .nav li.active > a:before {
-        border-right: 17px solid #ddd;
-        border-top: 17px solid transparent;
-        border-bottom: 17px solid transparent;
-        content: "";
-        display: inline-block;
-        position: absolute;
-        right: 0;
-        top: 15px; }
-      .sidebar .nav li.active > a:after,
-      .off-canvas-sidebar .nav li.active > a:after {
-        border-right: 17px solid #f4f3ef;
-        border-top: 17px solid transparent;
-        border-bottom: 17px solid transparent;
-        content: "";
-        display: inline-block;
-        position: absolute;
-        right: -1px;
-        top: 15px; }
-
-
-
-.form-control {
-    background-color: #fffcf5;
-    border: 1px solid #CCC5B9;
-    border-radius: 4px;
-    color: #66615b;
-    font-size: 14px;
-    transition: background-color 0.3s ease 0s;
-    padding: 7px 18px;
-    height: 40px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-
-.input-sm{
-  height: 30px;
-}
-
-
-.import-file-header {
-    background-color: #aaa;
-}
-
-
-
-
+/******************************************
+  loading-bar
+*/
 /* Make clicks pass-through */
 #loading-bar,
 #loading-bar-spinner {
@@ -111,7 +33,7 @@
   -o-transition: width 350ms;
   transition: width 350ms;
 
-  background: #29d;
+  background: $brand-info;
   position: fixed;
   z-index: 10002;
   top: 0;
@@ -130,10 +52,10 @@
   top: 0;
   height: 2px;
   opacity: .45;
-  -moz-box-shadow: #29d 1px 0 6px 1px;
-  -ms-box-shadow: #29d 1px 0 6px 1px;
-  -webkit-box-shadow: #29d 1px 0 6px 1px;
-  box-shadow: #29d 1px 0 6px 1px;
+  -moz-box-shadow: $brand-info 1px 0 6px 1px;
+  -ms-box-shadow: $brand-info 1px 0 6px 1px;
+  -webkit-box-shadow: $brand-info 1px 0 6px 1px;
+  box-shadow: $brand-info 1px 0 6px 1px;
   -moz-border-radius: 100%;
   -webkit-border-radius: 100%;
   border-radius: 100%;
@@ -152,8 +74,8 @@
   height: 14px;
 
   border:  solid 2px transparent;
-  border-top-color:  #29d;
-  border-left-color: #29d;
+  border-top-color:  $brand-info;
+  border-left-color: $brand-info;
   border-radius: 50%;
 
   -webkit-animation: loading-bar-spinner 400ms linear infinite;

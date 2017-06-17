@@ -1,22 +1,92 @@
 <div class="row">
-  <div class="col-md-12">
-    <div class="card ">
-      <div class="header">
-        <h4 class="title">Monthly Cash Flow</h4>
-        <p class="category"> Last 12 Months</p>
+  <div class="col-md-9">
+    <div class="row" *ngIf="Account">
+      <div class="col-xs-3">
+        <small class="stats-label">Income</small>
+        <h4>{{Account.CreditAmount}}</h4>
       </div>
-      <div class="content" >
-        
-        <canvas *ngIf="transactions" baseChart width="400" height="50" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
-          [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+
+      <div class="col-xs-3">
+        <small class="stats-label">Expenses</small>
+        <h4>{{Account.DebitAmount}}</h4>
+      </div>
+      <div class="col-xs-3">
+        <small class="stats-label">Balance</small>
+        <h4>{{Account.Balance}}</h4>
+      </div>
+      <div class="col-xs-3">
+        <small class="stats-label">Last Transaction</small>
+        <h5>{{Account.LastTransactionDate | date}}</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <small class="stats-label">Balance</small>
+    <div sparkline [sparklineOptions]="sparkOptions2" [(sparklineValues)]="sparklineValues"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel1 ">
+      <div class="panel-body1">
+        <div class="row">
+          <div class="col-xs-7">
+            <h4 class="title">Monthly Cash Flow</h4>
+          </div>
+          <div class="col-xs-5">
+            <div class="dropdown pull-right">
+              <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Last 12 Months
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="#">Last Month</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <canvas *ngIf="transactions" baseChart width="400" height="60" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="true" [chartType]="'line'" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
       </div>
 
       <div class="footer">
         <div class="stats">
-         
+
         </div>
       </div>
     </div>
   </div>
+
+
+  <div class="col-md-3">
+    <div class="panel1 ">
+      <div class="panel-body1">
+        <div class="row">
+          <div class="col-xs-7">
+            <h4 class="title">Expenses</h4>
+          </div>
+          <div class="col-xs-5">
+            <div class="dropdown pull-right">
+              <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Last 12 Months
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="#">Last Month</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <canvas baseChart *ngIf="pieData" [chartType]="'pie'" [options]="lineChartOptions" [datasets]="pieData.datasets" [colors]="lineChartColors"
+          [labels]="pieData.labels" [legend]="false" width="100" height="50"></canvas>
+      </div>
+
+      <div class="footer">
+        <div class="stats">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -28,12 +28,12 @@ namespace BankA.Data.Repositories
             return result;
         }
 
-        public void ImportFile(int accountID, ImportCsvDefinition importCsvDefinition, FileImport fileImport)
+        public void ImportFile(int accountId, ImportCsvDefinition importCsvDefinition, FileImport fileImport)
         {
             VaidateImportColumnIndex(importCsvDefinition);
             var transactionList = ParseFile(importCsvDefinition, fileImport.FileContent);
-            SaveFile(accountID, importCsvDefinition, fileImport, transactionList);
-            UpdateImportCsvDefinition(accountID, importCsvDefinition);
+            SaveFile(accountId, importCsvDefinition, fileImport, transactionList);
+            UpdateImportCsvDefinition(accountId, importCsvDefinition);
         }
 
         public object ParseFile(byte[] fileContent)
@@ -68,10 +68,10 @@ namespace BankA.Data.Repositories
             base.Delete<BankFile>(id);
         }
 
-        private void SaveFile(int accountID, ImportCsvDefinition importCsvDefinition, FileImport fileImport, List<BankTransaction> transactionList)
+        private void SaveFile(int accountId, ImportCsvDefinition importCsvDefinition, FileImport fileImport, List<BankTransaction> transactionList)
         {
             var file = new BankFile();
-            file.AccountId = accountID;
+            file.AccountId = accountId;
             file.FileContent = fileImport.FileContent;
             file.ContentType = fileImport.ContentType;
             file.FileName = fileImport.FileName;
@@ -202,9 +202,9 @@ namespace BankA.Data.Repositories
             //more validations
         }
 
-        private void UpdateImportCsvDefinition(int accountID, ImportCsvDefinition importCsvDefinition)
+        private void UpdateImportCsvDefinition(int accountId, ImportCsvDefinition importCsvDefinition)
         {
-            var account = base.Find<BankAccount>(accountID);
+            var account = base.Find<BankAccount>(accountId);
             account.ImportCsvDefinition = JsonConvert.SerializeObject(importCsvDefinition);
             base.Update(account);
         }

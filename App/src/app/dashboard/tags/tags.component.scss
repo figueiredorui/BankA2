@@ -5,16 +5,24 @@
     margin-bottom: -1px;
     background-color: #fff;
     border: 0px solid #ddd;
-    border-left: 1px solid #ddd;
 }
 
 hr {
-    margin-top: 10px;
+    margin-top: 13px;
     margin-bottom: 0px;
     border: 0;
     border-top: 1px solid #eee;
 }
 
-.list-group-item > .label {
+.list-group-item .sparkline {
     float: right;
+
 }
+
+.nav-tabs.nav-justified > li {
+    float: none;
+     background-color: #fff;
+}
+
+
+

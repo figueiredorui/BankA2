@@ -1,6 +1,6 @@
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let tag of tags">
-     {{tag.Tag}} <span class="label label-primary ">{{tag.Percentage | percent }}</span> <span class="label label-success">£{{tag.Amount}}</span>
+  <li class="list-group-item" *ngFor="let tag of tagExpenses">
+     {{tag.Tag}}<div class="sparkline " sparkline [sparklineOptions]="sparkOptions1" [sparklineValues]="tag.MonthlyAmount"></div>
     <hr>
   </li>
 </ul>

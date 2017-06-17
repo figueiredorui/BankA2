@@ -41,7 +41,7 @@ export class TransactionsComponent implements OnInit {
   public ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.accountID = params['id'] || 1;
+      this.accountID = params['id'] || 0;
       const search: TransactionSearch = { Page: 1, Query: this.search };
       this.LoadTransactions(this.accountID, search);
     });

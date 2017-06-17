@@ -1,0 +1,60 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400);
+body {
+  -webkit-font-smoothing: antialiased;
+  font: normal 14px Roboto,arial,sans-serif;
+}
+
+.wrapper {
+  position: relative;
+  top: 0;
+  height: 100vh; }
+
+  .main-panel {
+  padding-top: 70px;
+  background-color: $body-bg;
+  position: relative;
+  z-index: 2;
+  float: right;
+  width: calc(100% - 260px);
+  min-height: 100%; }
+  .main-panel > .content {
+    padding: 30px 15px;
+    min-height: calc(100% - 123px); }
+  .main-panel > .footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.1); }
+  .main-panel .navbar {
+    margin-bottom: 0; }
+
+.main-panel {
+  overflow: auto;
+  max-height: 100%;
+  height: 100%;
+      background-color: $body-bg;
+ }
+
+.navbar-default {
+    background-color: $body-bg;
+  
+}
+
+.main-panel > .content {
+    padding: 0px 15px;
+    min-height: calc(100% - 123px);
+}
+
+.navbar-fixed-top, .navbar-fixed-bottom {
+    position: fixed;
+    right: 40px;
+    left: 290px;
+    z-index: 1030;
+}
+
+
+
+.input-sm{
+  height: 30px;
+}
+
+.import-file-header {
+    background-color: $gray;
+}
