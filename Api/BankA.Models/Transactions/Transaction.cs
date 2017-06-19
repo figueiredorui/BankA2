@@ -13,6 +13,7 @@ namespace BankA.Models.Transactions
         public decimal DebitAmount { get; set; }
         public decimal CreditAmount { get; set; }
         public string Tag { get; set; }
+        public bool IsTransfer { get; set; }
 
         public decimal Balance { get { return CreditAmount - DebitAmount; } }
     }

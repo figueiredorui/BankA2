@@ -37,8 +37,9 @@
 
 				<table class="table table-over">
 					<thead>
-						<th width="150px">Date</th>
-						<th width="100px">Type</th>
+						<th width="100px">Date</th>
+						<th width="70px">Transfer</th>
+						<!--<th width="60px">Type</th>-->
 						<th>Description</th>
 						<th width="150px">Amount</th>
 						<th width="200px">Tag</th>
@@ -47,7 +48,8 @@
 					<tbody>
 						<tr *ngFor="let transaction of transactions | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: page, totalItems: total }">
 							<td>{{transaction.TransactionDate | date}}</td>
-							<td>{{transaction.TransactionType}}</td>
+							<td><i *ngIf="transaction.IsTransfer" class="fa fa-exchange" aria-hidden="true"></i></td>
+							<!--<td>{{transaction.TransactionType}}</td>-->
 							<td>{{transaction.Description}}</td>
 							<td><strong [className]="transaction.Balance > 0 ? 'text-success' : 'text-warning'">£ {{transaction.Balance }}</strong></td>
 							<td>

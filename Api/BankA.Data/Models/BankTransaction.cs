@@ -14,6 +14,7 @@ namespace BankA.Data.Models
         public decimal CreditAmount { get; set; }
         public string Tag { get; set; }
         public int? FileId { get; set; }
+        public bool IsTransfer { get; set; } 
 
         public virtual BankAccount Account { get; set; }
         public virtual BankFile File { get; set; }
