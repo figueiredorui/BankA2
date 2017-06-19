@@ -9,7 +9,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2CompleterModule } from "ng2-completer";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { CoreModule } from "../core/core.module";
-import {BusyModule,BusyConfig} from 'angular2-busy';
+import { BusyModule, BusyConfig, BUSY_CONFIG_DEFAULTS } from 'angular2-busy';
 
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ChartsComponent } from './charts/charts.component';
@@ -23,6 +23,15 @@ import { TransactionsService } from '../services/transactions.service';
 import { FileService } from '../services/file.service';
 import { ColorsService } from '../core/services/colors.service';
 
+const busyConfig: BusyConfig = {
+    message: '',
+    delay: BUSY_CONFIG_DEFAULTS.delay,
+    template: BUSY_CONFIG_DEFAULTS.template,
+    minDuration: BUSY_CONFIG_DEFAULTS.minDuration,
+    backdrop: false,
+    wrapperClass: BUSY_CONFIG_DEFAULTS.wrapperClass
+};
+
 
 @NgModule({
   imports: [
@@ -34,12 +43,7 @@ import { ColorsService } from '../core/services/colors.service';
     NgxPaginationModule,
     Ng2CompleterModule,
     Daterangepicker,
-    BusyModule.forRoot(
-        	new BusyConfig({
-            	message: '',
-                backdrop: false,
-            })
-        ),
+    BusyModule.forRoot(busyConfig),
     CoreModule
   ],
   exports: [
