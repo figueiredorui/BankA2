@@ -1,3 +1,4 @@
+<div [ngBusy]="isBusy"></div>
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let tag of tagExpenses">
      {{tag.Tag}}<div class="sparkline " sparkline [sparklineOptions]="sparkOptions1" [sparklineValues]="tag.MonthlyAmount"></div>

@@ -109,7 +109,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = transactionRepository.GetTagExpenses(id, DateTime.MinValue, DateTime.MaxValue);
+                var result = transactionRepository.GetTagExpenses(id, DateTime.Now.AddMonths(-12), DateTime.Now);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -6,7 +6,6 @@
       <p> {{account.Description}}</p>
     </a>
     <div>
-
       <small>Balance: £{{account.Balance}}</small>
       <button class="btn btn-link edit-account" (click)=editAccount(account.AccountId)><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
     </div>
@@ -17,6 +16,13 @@
     <button class="btn btn-link add-account" 
     data-toggle="tooltip" data-placement="bottom" title="Add Account"
      (click)=addAcount()><em class="fa fa-plus"></em> Add account</button>
+  </li>
+</ul>
 
+  <ul class="nav">
+    
+  <li>
+    <button class="btn btn-link " 
+     (click)=ViewTags()><em class="fa fa-plus"></em> Tags</button>
   </li>
 </ul>

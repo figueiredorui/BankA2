@@ -17,6 +17,7 @@ import { TagDialogComponent } from '../../tags/tag-dialog/tag-dialog.component'
 })
 export class TransactionsComponent implements OnInit {
 
+  public isBusy: any;
   public errorMsg: string;
   public transactions: Transaction[];
   public accountTags: string[];
@@ -95,7 +96,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   private LoadTransactions(accountID: number, search: TransactionSearch) {
-    this.transactionsService.getTransactions(accountID, search)
+    this.isBusy = this.transactionsService.getTransactions(accountID, search)
       .subscribe(data => {
         this.total = data.Count;
         this.page = data.Page;

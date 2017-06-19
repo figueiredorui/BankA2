@@ -44,7 +44,7 @@ load(
     HttpModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgLoadingBarModule.forRoot(),
+    //NgLoadingBarModule.forRoot(),
     ToastModule.forRoot(),
     DashboardModule,
     AccountsModule,

@@ -4,20 +4,25 @@
       <a class="navbar-brand" href="#">{{Account?.Description}}</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li>
-        <a *ngIf="Account" [routerLink]="['/account', Account.AccountId, 'dashboard']" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bar-chart"></i>Reports
-          </a>
-      </li>
+      
 
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a [routerLink]="['/tags']">Tags</a></li>
-        </ul>
+        <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Last 12 Months
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="#">Last Month</a></li>
+                <li><a href="#">Last 3 Months</a></li>
+                <li><a href="#">Last 6 Months</a></li>
+                <li><a href="#">Last 12 Months</a></li>
+                <li><a href="#">Last 24 Months</a></li>
+              </ul>
       </li>
 
     </ul>
+
+    
 
   </div>
 </nav>

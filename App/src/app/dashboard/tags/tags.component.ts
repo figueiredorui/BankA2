@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
 
 import { TransactionsService } from '../../services/transactions.service';
+import { ColorsService } from '../../core/services/colors.service';
 import { TagExpenses } from '../dashboard.types';
 
 @Component({
@@ -17,19 +18,29 @@ export class TagsComponent implements OnInit {
     this.LoadTags(accountID);
   }
 
+  public isBusy: any;
   public errorMsg: string;
   public tagExpenses: Array<TagExpenses>;
 
-  public tagExpensesDetails: any = [1,3,4,7,5,9,4,4,7,5,9,6,4]
+  public tagExpensesDetails: any = [1, 3, 4, 7, 5, 9, 4, 4, 7, 5, 9, 6, 4]
   public sparkOptions1 = {
-        barColor: '#23b7e5',
-        height: 30,
-        barWidth: '5',
-        barSpacing: '2'
-    };
+    type: 'line',
+    height: 20,
+    width: '50%',
+    lineWidth: 2,
+    lineColor: this.colors.byName('info'),
+    spotColor: this.colors.byName('info'),
+    minSpotColor: this.colors.byName('info'),
+    maxSpotColor: this.colors.byName('info'),
+    fillColor: '',
+    highlightLineColor: this.colors.byName('info'),
+    spotRadius: 3,
+    resize: true
+  };
 
   constructor(
     private transactionsService: TransactionsService,
+    private colors: ColorsService,
     private route: ActivatedRoute
   ) { }
 
@@ -38,14 +49,14 @@ export class TagsComponent implements OnInit {
 
   }
 
-  
+
   private LoadTags(accountID) {
-    this.transactionsService.getTagExpenses(accountID)
+    this.isBusy = this.transactionsService.getTagExpenses(accountID)
       .subscribe(data => {
         this.tagExpenses = data;
 
         this.tagExpenses.forEach(element => {
-          element.MonthlyAmount = element.Details.map(m=>m.Amount);
+          element.MonthlyAmount = element.Details.map(m => m.Amount);
         });
 
       }, err => {

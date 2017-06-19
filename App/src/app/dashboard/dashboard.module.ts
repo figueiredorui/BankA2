@@ -9,6 +9,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2CompleterModule } from "ng2-completer";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { CoreModule } from "../core/core.module";
+import {BusyModule,BusyConfig} from 'angular2-busy';
 
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ChartsComponent } from './charts/charts.component';
@@ -33,6 +34,12 @@ import { ColorsService } from '../core/services/colors.service';
     NgxPaginationModule,
     Ng2CompleterModule,
     Daterangepicker,
+    BusyModule.forRoot(
+        	new BusyConfig({
+            	message: '',
+                backdrop: false,
+            })
+        ),
     CoreModule
   ],
   exports: [

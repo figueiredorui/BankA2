@@ -16,6 +16,7 @@ import { CashFlow } from '../dashboard.types';
 
 export class ChartsComponent implements OnInit {
 
+  public isBusy: any;
   public errorMsg: string;
 
   public lineChartData: Array<any>;
@@ -24,7 +25,12 @@ export class ChartsComponent implements OnInit {
 
   public lineChartLabels: Array<any>;
 
-  public lineChartOptions: any = { responsive: true };
+  public lineChartOptions: any = { responsive: true,
+  legend: {
+                        position: 'right',
+                        labels:{fontSize: 9, fontColor: 'rgb(255, 99, 132)'}
+                    },
+                   };
 
 
   public transactions: CashFlow[];
@@ -75,7 +81,7 @@ export class ChartsComponent implements OnInit {
   }
 
   private LoadTransactions(accountID) {
-    this.transactionsService.getCashFlow(accountID)
+    this.isBusy = this.transactionsService.getCashFlow(accountID)
       .subscribe(data => {
         this.transactions = data;
 

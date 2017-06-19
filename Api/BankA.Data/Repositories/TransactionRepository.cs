@@ -101,6 +101,7 @@ namespace BankA.Data.Repositories
         {
             var transactionsLst = base.Table<BankTransaction>()
                                                        .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+                                                           
                                                             && q.TransactionDate >= startDate
                                                             && q.TransactionDate <= endDate
                                                             && q.DebitAmount > 0);
@@ -116,6 +117,7 @@ namespace BankA.Data.Repositories
                            Amount = grp.Sum(o => o.DebitAmount),
                            Details = (from transDetail in transactionsLst
                                       where transDetail.Tag == grp.Key.Tag
+                                      
                                       orderby transDetail.TransactionDate.Year, transDetail.TransactionDate.Month
                                       group transDetail by new
                                       {

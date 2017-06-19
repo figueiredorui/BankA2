@@ -5,17 +5,17 @@
 <br>
 
 
-<div class="row">
+		
+<div class="row" >
+
 	<div class="col-md-9">
+		<div [ngBusy]="isBusy"></div>
 		<div class="panel">
 			<div class="panel-heading">
 				<h4 class="title">Transactions</h4>
 				<!--<p class="category">Here is a subtitle for this table</p>-->
 			</div>
-
-
-			<div class="panel-body ">
-
+			<div class="panel-body " style="height:1150px;">
 				<div class="row">
 					<div class="col-md-6">
 						<form class="form-inline" #searchForm="ngForm">
@@ -55,55 +55,38 @@
 								 (blur)="onTagChanged(transaction)"></ng2-completer>
 							</td>
 							<th>
-								<!--<button class="btn btn-link" *ngIf="!transaction.Tag" (click)=addTag(transaction)><i class="fa fa-tags" aria-hidden="true"> </i>Create Tag</button>-->
-								<button class="btn btn-link" *ngIf="!transaction.Tag" (click)=addTag(transaction) data-toggle="tooltip"
-								 data-placement="bottom" title="Add Tag"><i class="fa fa-tags"></i></button>
+								<button class="btn btn-link" *ngIf="!transaction.Tag" (click)=addTag(transaction) data-toggle="tooltip" data-placement="bottom"
+								 title="Add Tag"><i class="fa fa-tags"></i></button>
 							</th>
 						</tr>
-
 					</tbody>
 				</table>
 				<div class="has-text-centered">
 					<div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
 					<pagination-controls (pageChange)="getPage($event)" id="server" class="pagination pagination-info"></pagination-controls>
 				</div>
-
-
 			</div>
-
 		</div>
-
 	</div>
 
 	<div class="col-md-3">
-
 		<div class="panel">
-			<div class="" data-example-id="togglable-tabs">
-				<ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist">
-					<li role="presentation" class="active">
-						<a href="#tags" id="tags-tab" role="tab" data-toggle="tab" aria-controls="tags" aria-expanded="true">Tags</a>
-					</li>
-					<li role="presentation" class="">
-						<a href="#files" role="tab" id="files-tab" data-toggle="tab" aria-controls="files" aria-expanded="false">Files</a>
-					</li>
-
-				</ul>
-
-				<div class="tab-content" id="myTabContent">
-					<div class="tab-pane fade active in" role="tabpanel" id="tags" aria-labelledby="tags-tab">
-						<dashboard-tags [accountID]="accountID"></dashboard-tags>
-					</div>
-					<div class="tab-pane fade" role="tabpanel" id="files" aria-labelledby="files-tab">
-						<dashboard-files [accountID]="accountID"></dashboard-files>
-					</div>
-
-
+			<ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist">
+				<li role="presentation" class="active">
+					<a href="#tags" id="tags-tab" role="tab" data-toggle="tab" aria-controls="tags" aria-expanded="true">Tags</a>
+				</li>
+				<li role="presentation" class="">
+					<a href="#files" role="tab" id="files-tab" data-toggle="tab" aria-controls="files" aria-expanded="false">Files</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade active in" role="tabpanel" id="tags" aria-labelledby="tags-tab" style="height:1170px; overflow-y: scroll;">
+					<dashboard-tags [accountID]="accountID"></dashboard-tags>
+				</div>
+				<div class="tab-pane fade" role="tabpanel" id="files" aria-labelledby="files-tab" style="height:1170px; overflow-y: scroll;">
+					<dashboard-files [accountID]="accountID"></dashboard-files>
 				</div>
 			</div>
-
 		</div>
-
-
-
 	</div>
 </div>
