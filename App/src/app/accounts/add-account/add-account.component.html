@@ -12,8 +12,8 @@
       </div>
       <form class="form-horizontal" #accountForm="ngForm" > 
         <div class="form-group">
-          <label class="col-lg-3 control-label">Description</label>
-          <div class="col-lg-9">
+          <label class="col-xs-3 control-label">Description</label>
+          <div class="col-xs-9">
             <input type="text" class="form-control" [(ngModel)]="account.Description" name="Description" id="Description" placeholder="Description" required>
             <!--<small [hidden]="Description || Description.valid || Description.pristine" class="text-danger">Description is required</small>-->
           </div>
@@ -21,8 +21,8 @@
 
         <div class="form-group">
 
-          <label class="col-lg-3 control-label">Savings Account</label>
-          <div class="col-lg-9">
+          <label class="col-xs-3 control-label">Savings Account</label>
+          <div class="col-xs-9">
             <input type="checkbox" class="form-control1" [(ngModel)]="account.IsSavingsAccount" name="IsSavingsAccount" />
           </div>
         </div>
