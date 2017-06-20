@@ -13,7 +13,7 @@ import { TagDialogComponent } from '../../tags/tag-dialog/tag-dialog.component'
   moduleId: module.id,
   selector: 'dashboard-transactions',
   templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.css']
+  styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
 

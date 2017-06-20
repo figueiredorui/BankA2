@@ -47,6 +47,7 @@ namespace BankA.Data.Repositories
         public AccountSummary GetAccountSummary(int accountId)
         {
             var result = new AccountSummary();
+
             if (accountId > 0)
             {
                 result = base.Table<BankAccount>()
@@ -55,26 +56,21 @@ namespace BankA.Data.Repositories
                             {
                                 AccountId = s.AccountId,
                                 Description = s.Description,
-                                CreditAmount = (decimal?)s.Transactions.Sum(sum => sum.CreditAmount) ?? 0,
-                                DebitAmount = (decimal?)s.Transactions.Sum(sum => sum.DebitAmount) ?? 0,
-                                FirstTransactionDate = (DateTime?)s.Transactions.Min(m => m.TransactionDate) ?? DateTime.MinValue,
-                                LastTransactionDate = (DateTime?)s.Transactions.Max(m => m.TransactionDate) ?? DateTime.MinValue
                             }).ProjectTo<AccountSummary>().FirstOrDefault();
             }
             else
             {
-                result = base.Table<BankAccount>()
-                           .Select(s => new
-                           {
-                               AccountId = 0,
-                               Description = "All Accounts",
-                               CreditAmount = (decimal?)s.Transactions.Sum(sum => sum.CreditAmount) ?? 0,
-                               DebitAmount = (decimal?)s.Transactions.Sum(sum => sum.DebitAmount) ?? 0,
-                               FirstTransactionDate = (DateTime?)s.Transactions.Min(m => m.TransactionDate) ?? DateTime.MinValue,
-                               LastTransactionDate = (DateTime?)s.Transactions.Max(m => m.TransactionDate) ?? DateTime.MinValue
-                           }).ProjectTo<AccountSummary>().FirstOrDefault();
+                result.AccountId = 0;
+                result.Description = "All Accounts";
             }
-            
+
+            var transactions = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
+
+            result.CreditAmount = (decimal?)transactions.Sum(sum => sum.CreditAmount) ?? 0;
+            result.DebitAmount = (decimal?)transactions.Sum(sum => sum.DebitAmount) ?? 0;
+            result.FirstTransactionDate = (DateTime?)transactions.Min(m => m.TransactionDate) ?? DateTime.MinValue;
+            result.LastTransactionDate = (DateTime?)transactions.Max(m => m.TransactionDate) ?? DateTime.MinValue;
+
             return result;
         }
 

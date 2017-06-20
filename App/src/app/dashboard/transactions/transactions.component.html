@@ -32,7 +32,7 @@
 				<th width="70px">Transfer</th>
 				<!--<th width="60px">Type</th>-->
 				<th>Description</th>
-				<th width="150px">Amount</th>
+				<th width="150px" style="text-align:right" >Amount</th>
 				<th width="200px">Tag</th>
 				<th width="50px"></th>
 			</thead>
@@ -42,15 +42,15 @@
 					<td><i *ngIf="transaction.IsTransfer" class="fa fa-exchange" aria-hidden="true"></i></td>
 					<!--<td>{{transaction.TransactionType}}</td>-->
 					<td>{{transaction.Description}}</td>
-					<td><strong [className]="transaction.Balance > 0 ? 'text-success' : 'text-warning'">£ {{transaction.Balance }}</strong></td>
-					<td>
-						<ng2-completer [(ngModel)]="transaction.Tag" inputClass="form-control input-sm" [datasource]="tags" [minSearchLength]="0"
+					<td style="text-align:right"><strong [className]="transaction.Balance > 0 ? 'text-success' : 'text-warning'"> {{transaction.Balance | currencyGBP }}</strong></td>
+					<td class="input-tag-column">
+						<ng2-completer [(ngModel)]="transaction.Tag" inputClass="form-control input-sm "  [datasource]="tags" [minSearchLength]="0"
 						 (blur)="onTagChanged(transaction)"></ng2-completer>
 					</td>
-					<th>
+					<td class="tag-column">
 						<button class="btn btn-link" *ngIf="!transaction.Tag" (click)=addTag(transaction) data-toggle="tooltip" data-placement="bottom"
 						 title="Add Tag"><i class="fa fa-tags"></i></button>
-					</th>
+					</td>
 				</tr>
 			</tbody>
 		</table>

@@ -4,12 +4,14 @@ import { NgModule} from '@angular/core';
     import { BootstrapModalModule } from 'ng2-bootstrap-modal';
     import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
     import { SparklineDirective } from './directives/sparkline.directive';
+    import { CurrencyGPB } from './pipes/currency-gbp.pipe';
     import { HttpApiService } from './services/http-api.service';
     
     @NgModule({
       declarations: [
         ConfirmationDialogComponent,
-        SparklineDirective
+        SparklineDirective,
+        CurrencyGPB 
       ],
       imports: [
         CommonModule,
@@ -22,7 +24,8 @@ import { NgModule} from '@angular/core';
       ],
       exports:[
         ConfirmationDialogComponent,
-        SparklineDirective
+        SparklineDirective,
+        CurrencyGPB
       ]
     })
 export class CoreModule { }

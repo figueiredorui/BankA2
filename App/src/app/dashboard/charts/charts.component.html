@@ -5,16 +5,16 @@
     <div class="row" *ngIf="Account">
       <div class="col-xs-3">
         <small class="stats-label">Income</small>
-        <h4>{{Account.CreditAmount}}</h4>
+        <h4>{{Account.CreditAmount | currencyGBP}}</h4>
       </div>
 
       <div class="col-xs-3">
         <small class="stats-label">Expenses</small>
-        <h4>{{Account.DebitAmount}}</h4>
+        <h4>{{Account.DebitAmount | currencyGBP}}</h4>
       </div>
       <div class="col-xs-3">
         <small class="stats-label">Balance</small>
-        <h4>{{Account.Balance}}</h4>
+        <h4>{{Account.Balance | currencyGBP}}</h4>
       </div>
       <div class="col-xs-3">
         <small class="stats-label">Last Transaction</small>

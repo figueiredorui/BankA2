@@ -7,8 +7,11 @@ declare var $: any;
 export class SparklineDirective implements OnInit, OnDestroy {
 
     @Input() sparklineOptions;
-     @Input('sparklineValues') sparklineValues;
-     
+    @Input()
+    set sparklineValues(values: any) {
+        this.initSparkLine(values);
+    }
+
 
     // generate a unique resize event so we can detach later
     public resizeEventId = 'resize.sparkline' + 1324;
@@ -19,10 +22,10 @@ export class SparklineDirective implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.initSparkLine();
+      //  this.initSparkLine();
     }
 
-    initSparkLine() {
+    initSparkLine(values: any) {
         let options = this.sparklineOptions,
             data = this.$element.data();
 
@@ -38,15 +41,15 @@ export class SparklineDirective implements OnInit, OnDestroy {
         options.type = options.type || 'bar'; // default chart is bar
         options.disableHiddenCheck = true;
 
-        if (this.sparklineValues)
-            this.$element.sparkline(this.sparklineValues, options);
+        if (values)
+            this.$element.sparkline(values, options);
         else
             this.$element.sparkline('html', options);
 
         if (options.resize) {
             $(window).on(this.resizeEventId, () => {
-                if (this.sparklineValues)
-                    this.$element.sparkline(this.sparklineValues, options);
+                if (values)
+                    this.$element.sparkline(values, options);
                 else
                     this.$element.sparkline('html', options);
             });

@@ -7,10 +7,9 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ChartsModule } from 'ng2-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2CompleterModule } from "ng2-completer";
-import { CoreModule } from "../core/core.module";
 import { BusyModule, BusyConfig, BUSY_CONFIG_DEFAULTS } from 'angular2-busy';
 
- 
+import { CoreModule } from "../core/core.module"; 
 import { DashboardComponent } from './dashboard.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ChartsComponent } from './charts/charts.component';

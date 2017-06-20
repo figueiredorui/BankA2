@@ -6,7 +6,7 @@
       <p> {{account.Description}}</p>
     </a>
     <div>
-      <small>Balance: £{{account.Balance}}</small>
+      <small>Balance: {{account.Balance | currencyGBP}}</small>
       <button class="btn btn-link edit-account" (click)=editAccount(account.AccountId)><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
     </div>
 
