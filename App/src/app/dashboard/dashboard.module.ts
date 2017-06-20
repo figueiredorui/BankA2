@@ -7,7 +7,6 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ChartsModule } from 'ng2-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2CompleterModule } from "ng2-completer";
-import { Daterangepicker } from 'ng2-daterangepicker';
 import { CoreModule } from "../core/core.module";
 import { BusyModule, BusyConfig, BUSY_CONFIG_DEFAULTS } from 'angular2-busy';
 
@@ -42,7 +41,6 @@ const busyConfig: BusyConfig = {
     BootstrapModalModule,
     NgxPaginationModule,
     Ng2CompleterModule,
-    Daterangepicker,
     BusyModule.forRoot(busyConfig),
     CoreModule
   ],

@@ -15,7 +15,7 @@ namespace BankA.Data.Contexts
                 context.Database.EnsureCreated();
              //   context.Database.Migrate();
 
-               BankA.Data.SeedData.SeedDataHelper.EnsureSeedData(context);
+              // BankA.Data.SeedData.SeedDataHelper.EnsureSeedData(context);
             }
         }
     }

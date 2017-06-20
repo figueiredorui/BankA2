@@ -27,10 +27,40 @@ namespace BankA.Data.SeedData
                 context.BankFile.AddRange(
                     new BankFile() { AccountId = 1, FileName = "0912.csv", ContentType= "application/vnd.ms-excel" },
                     new BankFile() { AccountId = 2, FileName = "ssss.csv", ContentType = "application/vnd.ms-excel" },
-                    new BankFile() { AccountId = 3, FileName = "tr.csv", ContentType = "application/vnd.ms-excel" }
+                    new BankFile() { AccountId = 3, FileName = "tr.csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 2, FileName = "51786968_20150802_1907.csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 2, FileName = "51786968_20150802_1907.csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 1, FileName = "statement.csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 1, FileName = "statement (1).csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 1, FileName = "statement.csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 2, FileName = "51786968_20150914_2139.csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 1, FileName = "statement.csv", ContentType = "application/vnd.ms-excel" },
+                    new BankFile() { AccountId = 1, FileName = "statement (1).csv", ContentType = "application/vnd.ms-excel" }
                 );
 
                 context.SaveChanges();
+            }
+
+            if (!context.BankTag.Any())
+            {
+                context.BankTag.AddRange(
+                    new BankTag() { Description = "lectus pellentesque at", Tag = "Jewelery" },
+                    new BankTag() { Description = "congue risus semper porta", Tag = "Toys" },
+                    new BankTag() { Description = "vel est donec odio", Tag = "Beauty" },
+                    new BankTag() { Description = "in hac habitasse", Tag = "Computers" },
+                    new BankTag() { Description = "etiam pretium iaculis", Tag = "Outdoors" },
+                    new BankTag() { Description = "vulputate luctus cum sociis natoque", Tag = "Tools" },
+                    new BankTag() { Description = "elit", Tag = "Sports" },
+                    new BankTag() { Description = "amet", Tag = "Industrial" },
+                    new BankTag() { Description = "molestie lorem quisque ut", Tag = "Kids" },
+                    new BankTag() { Description = "accumsan", Tag = "Movies" },
+                    new BankTag() { Description = "sit", Tag = "Games" },
+                    new BankTag() { Description = "amet", Tag = "Movies" },
+                    new BankTag() { Description = "ultrices", Tag = "Automotive" },
+                    new BankTag() { Description = "pede", Tag = "Toys" },
+                    new BankTag() { Description = "morbi", Tag = "Home" },
+                    new BankTag() { Description = "turpis sed", Tag = "Movies" }
+                    );
             }
 
             if (!context.BankTransaction.Any())

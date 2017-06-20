@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 
-import { NgLoadingBarModule } from 'ng-loading-bar';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -44,7 +43,6 @@ load(
     HttpModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    //NgLoadingBarModule.forRoot(),
     ToastModule.forRoot(),
     DashboardModule,
     AccountsModule,
