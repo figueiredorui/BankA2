@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TransactionsComponent } from './dashboard/transactions/transactions.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { FilesComponent } from './dashboard/files/files.component';
 import { TagListComponent } from './tags/tag-list/tag-list.component';
 
@@ -15,7 +15,7 @@ const routes: Routes = [
       {
         path: '',
         children: [
-          { path: ':id/dashboard', component: TransactionsComponent, data : {name : 'dashboard'} },
+          { path: ':id/dashboard', component: DashboardComponent, data : {name : 'dashboard'} },
           { path: ':id/files', component: FilesComponent, data : {name : 'files'} },
         ],
       }

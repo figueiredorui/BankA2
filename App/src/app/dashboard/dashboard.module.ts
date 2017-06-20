@@ -10,6 +10,8 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { CoreModule } from "../core/core.module";
 import { BusyModule, BusyConfig, BUSY_CONFIG_DEFAULTS } from 'angular2-busy';
 
+ 
+import { DashboardComponent } from './dashboard.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ChartsComponent } from './charts/charts.component';
 import { ImportComponent } from './import/import.component';
@@ -51,6 +53,6 @@ const busyConfig: BusyConfig = {
     ConfirmationDialogComponent
   ],
   providers: [TransactionsService, FileService, ColorsService],
-  declarations: [TransactionsComponent, ChartsComponent, ImportComponent, FilesComponent, HeaderComponent, TagsComponent]
+  declarations: [TransactionsComponent, DashboardComponent , ChartsComponent, ImportComponent, FilesComponent, HeaderComponent, TagsComponent]
 })
 export class DashboardModule { }

@@ -30,22 +30,19 @@ export class TransactionsComponent implements OnInit {
 
   public tags: string[] = [];
 
-  public accountID: number;
+  @Input()
+  set accountID(accountID: number) {
+    this.Search()
+  }
 
   constructor(
     private transactionsService: TransactionsService,
     private tagsService: TagService,
-    private route: ActivatedRoute,
+    
     private dialogService: DialogService,
   ) { }
 
   public ngOnInit() {
-
-    this.route.params.subscribe(params => {
-      this.accountID = params['id'] || 0;
-      const search: TransactionSearch = { Page: 1, Query: this.search };
-      this.LoadTransactions(this.accountID, search);
-    });
 
     this.LoadTagsLookup();
   }

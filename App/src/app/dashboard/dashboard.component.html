@@ -1,0 +1,31 @@
+<dashboard-header [accountID]="accountID"></dashboard-header>
+<dashboard-charts [accountID]="accountID"></dashboard-charts>
+
+	
+<div class="row" >
+
+	<div class="col-xs-9">
+		<dashboard-transactions [accountID]="accountID"></dashboard-transactions>
+	</div>
+
+	<div class="col-xs-3">
+		<div class="panel">
+			<ul class="nav nav-tabs nav-justified" id="myTabs" role="tablist">
+				<li role="presentation" class="active">
+					<a href="#tags" id="tags-tab" role="tab" data-toggle="tab" aria-controls="tags" aria-expanded="true">Tags</a>
+				</li>
+				<li role="presentation" class="">
+					<a href="#files" role="tab" id="files-tab" data-toggle="tab" aria-controls="files" aria-expanded="false">Files</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade active in scrollbar scrollbar-style-1" role="tabpanel" id="tags" aria-labelledby="tags-tab" >
+					<dashboard-tags [accountID]="accountID"></dashboard-tags>
+				</div>
+				<div class="tab-pane fade scrollbar scrollbar-style-1" role="tabpanel" id="files" aria-labelledby="files-tab" style="height:1170px; overflow-y: scroll;">
+					<dashboard-files [accountID]="accountID"></dashboard-files>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,6 +1,10 @@
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let file of files">
-    <button class="btn btn-simple pull-right" (click)=deleteFile(file.AccountId,file.FileId)><i class="fa fa-trash-o" aria-hidden="true"> </i></button>    {{file.FileName}}
+    <!--<button class="btn btn-simple pull-right" (click)=deleteFile(file.AccountId,file.FileId)><i class="fa fa-trash-o" aria-hidden="true"> </i></button>   -->
+    <button class="btn btn-link pull-right" (click)=deleteFile(file.AccountId,file.FileId)><i class="fa fa-trash-o" aria-hidden="true"> </i></button>
+    <strong class="list-group-item-heading">{{file.ImportedOn | date}}</strong>
+    <p class="list-group-item-text">{{file.FileName}}</p>
+    
     <hr>
   </li>
 </ul>
