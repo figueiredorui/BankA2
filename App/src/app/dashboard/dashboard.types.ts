@@ -6,20 +6,24 @@ export interface CashFlow {
   DebitAmount: number;
   CreditAmount: number;
   Balance: number;
-  
 }
 
-
-export interface TagExpenses {
+export interface TagSummary {
+  Type: string;
   Tag: string;
   Amount: number;
-  Details: Array<TagExpensesDetails>
+  Details: Array<TagSummaryDetails>
   MonthlyAmount: Array<number>
 }
 
-export interface TagExpensesDetails {
+export interface TagSummaryDetails {
   Year: number
   Month: string
+  Amount: number
+}
+
+export interface TagExpense {
+  Tag: string
   Amount: number
 }
 

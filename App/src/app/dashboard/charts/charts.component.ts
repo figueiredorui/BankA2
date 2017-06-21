@@ -106,13 +106,13 @@ export class ChartsComponent implements OnInit {
         this.errorMsg = err;
       });
 
-    this.transactionsService.getTagExpenses(accountID)
+    this.transactionsService.getTop10Expenses(accountID)
       .subscribe(data => {
 
         this.pieData = {
-          labels: data.map(x => x.Tag).slice(1, 10),
+          labels: data.map(x => x.Tag),
           datasets: [{
-            data: data.map(x => x.Amount).slice(1, 10),
+            data: data.map(x => x.Amount),
           }]
         };
 

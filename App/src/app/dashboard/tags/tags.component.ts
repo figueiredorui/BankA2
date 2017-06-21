@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 
 import { TransactionsService } from '../../services/transactions.service';
 import { ColorsService } from '../../core/services/colors.service';
-import { TagExpenses } from '../dashboard.types';
+import { TagSummary } from '../dashboard.types';
 
 @Component({
   selector: 'dashboard-tags',
@@ -20,9 +20,8 @@ export class TagsComponent implements OnInit {
 
   public isBusy: any;
   public errorMsg: string;
-  public tagExpenses: Array<TagExpenses>;
+  public tagExpenses: Array<TagSummary>;
 
-  public tagExpensesDetails: any = [1, 3, 4, 7, 5, 9, 4, 4, 7, 5, 9, 6, 4]
   public sparkOptions1 = {
     type: 'line',
     height: 20,
@@ -51,7 +50,7 @@ export class TagsComponent implements OnInit {
 
 
   private LoadTags(accountID) {
-    this.isBusy = this.transactionsService.getTagExpenses(accountID)
+    this.isBusy = this.transactionsService.getTagDetails(accountID)
       .subscribe(data => {
         this.tagExpenses = data;
 

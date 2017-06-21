@@ -49,7 +49,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = accountRepository.GetAccountSummary(id);
+                var result = accountRepository.GetAccountSummary(id, 12);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -103,13 +103,27 @@ namespace BankA.Api.Controllers
         //    }
         //}
 
-        // GET: api/Accounts/5/Expenses
-        [HttpGet("{id}/TagExpenses")]
-        public IActionResult GetTagExpenses(int id)
+        // GET: api/Accounts/5/TagDetails
+        [HttpGet("{id}/TagDetails")]
+        public IActionResult TagDetails(int id)
         {
             try
             {
-                var result = transactionRepository.GetTagExpenses(id, 12);
+                var result = transactionRepository.GetTagDetails(id, 12);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        [HttpGet("{id}/Top10Expenses")]
+        public IActionResult Top10Expenses(int id)
+        {
+            try
+            {
+                var result = transactionRepository.GetTop10Expenses(id);
                 return Ok(result);
             }
             catch (Exception ex)

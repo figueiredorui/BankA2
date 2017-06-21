@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using BankA.Models.Reports;
 using BankA.Models.Tags;
 using System.Globalization;
+using BankA.Data.Helpers;
 
 namespace BankA.Data.Repositories
 {
@@ -44,112 +45,87 @@ namespace BankA.Data.Repositories
             return result;
         }
 
-        private decimal GetBalance(int accountId, DateTime date)
+        public List<TagExpense> GetTop10Expenses(int accountId)
         {
-            var transactionsLst = base.Table<BankTransaction>()
-                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-                && q.TransactionDate < date);
+            var transactionsLst = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
 
-            var balance = (decimal?)transactionsLst.Sum(sum => sum.CreditAmount - sum.DebitAmount) ?? 0;
+            var result = (from item in transactionsLst
+                          group item by new { Tag = item.Tag } into grp
+                          select new TagExpense
+                          {
+                              Tag = grp.Key.Tag,
+                              Amount = grp.Sum(s => s.DebitAmount),
+                          }).OrderByDescending(o => o.Amount).Take(10).ToList();
 
-            return balance;
+            return result.OrderBy(o => o.Amount).ToList();
         }
 
-        //public List<TagSummary> GetTags(int accountId)
-        //{
-        //    var transactionsLst = base.Table<BankTransaction>()
-        //                                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-        //                                    && q.TransactionDate <= DateTime.Now);
-
-        //    var totalDebit = transactionsLst.Sum(s => s.DebitAmount);
-
-        //    var result = (from item in transactionsLst
-        //                  group item by new { Tag = item.Tag } into grp
-        //                  select new TagSummary
-        //                  {
-        //                      Tag = grp.Key.Tag,
-        //                      Amount = grp.Sum(s => s.DebitAmount),
-        //                      Percentage = grp.Sum(s => s.DebitAmount) / totalDebit
-        //                  }).OrderByDescending(o => o.Amount).ToList();
-
-        //    foreach (var item in result)
-        //        if (string.IsNullOrEmpty(item.Tag))
-        //            item.Tag = "None";
-
-        //    return result;
-        //}
-
-
-
-        //public List<ExpensesReport> GetExpenses(int accountId, DateTime startDate, DateTime endDate)
-        //{
-        //    var transactionsLst = base.Table<BankTransaction>()
-        //                                                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-        //                                                    && q.TransactionDate >= startDate
-        //                                                    && q.TransactionDate <= endDate
-        //                                                    && q.DebitAmount > 0);
-
-        //    var lst = (from trans in transactionsLst
-        //               group trans by new
-        //               {
-        //                   Tag = trans.Tag,
-        //                   Month = trans.TransactionDate.Month,
-        //                   Year = trans.TransactionDate.Year
-        //               } into grp
-        //               select new ExpensesReport()
-        //               {
-        //                   Tag = grp.Key.Tag,
-        //                   Year = grp.Key.Year,
-        //                   Month = grp.Key.Month,
-        //                   Amount = grp.Sum(o => o.DebitAmount),
-        //               }).ToList();
-
-        //    return lst;
-        //}
-
-        private DateTime StartPriod(int period)
+        public List<TagSummary> GetTagDetails(int accountId, int period)
         {
-            var date = DateTime.Now.AddMonths(-period);
-            return new DateTime(date.Year, date.Month, 1);
-        }
+            var transactionsLst = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
 
-        public List<TagExpenses> GetTagExpenses(int accountId, int period)
-        {
-            var transactionsLst = base.Table<BankTransaction>()
-                                                       .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-                                                            && q.TransactionDate >= StartPriod(period)
-                                                            && q.DebitAmount > 0);
+            var debitTags = (from trans in transactionsLst
+                             where trans.DebitAmount > 0
+                             group trans by new
+                             {
+                                 Tag = trans.Tag,
+                             } into grp
+                             select new TagSummary
+()
+                             {
+                                 Type = "D",
+                                 Tag = grp.Key.Tag,
+                                 Amount = grp.Sum(o => o.DebitAmount),
+                                 Details = (from transDetail in transactionsLst
+                                            where transDetail.Tag == grp.Key.Tag && transDetail.DebitAmount > 0
+                                            orderby transDetail.TransactionDate.Year, transDetail.TransactionDate.Month
+                                            group transDetail by new
+                                            {
+                                                Tag = transDetail.Tag,
+                                                Month = transDetail.TransactionDate.Month,
+                                                Year = transDetail.TransactionDate.Year
+                                            } into grpDetail
+                                            select new TagSummaryDetails()
+                                            {
+                                                Year = grpDetail.Key.Year,
+                                                Month = grpDetail.Key.Month,
+                                                Amount = grpDetail.Sum(o => o.DebitAmount),
+                                            }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(period).ToList()
 
-            var lst = (from trans in transactionsLst
-                       group trans by new
-                       {
-                           Tag = trans.Tag,
-                       } into grp
-                       select new TagExpenses()
-                       {
-                           Tag = grp.Key.Tag,
-                           Amount = grp.Sum(o => o.DebitAmount),
-                           Details = (from transDetail in transactionsLst
-                                      where transDetail.Tag == grp.Key.Tag
-                                      
-                                      orderby transDetail.TransactionDate.Year, transDetail.TransactionDate.Month
-                                      group transDetail by new
-                                      {
-                                          Tag = transDetail.Tag,
-                                          Month = transDetail.TransactionDate.Month,
-                                          Year = transDetail.TransactionDate.Year
-                                      } into grpDetail
-                                      select new TagExpensesDetails()
-                                      {
-                                          //Tag = grpDetail.Key.Tag,
-                                          Year = grpDetail.Key.Year,
-                                          Month = grpDetail.Key.Month,
-                                          Amount = grpDetail.Sum(o => o.DebitAmount),
-                                      }).ToList()
+                             });
 
-                       }).OrderByDescending(o => o.Amount).ToList();
+            var creditTags = (from trans in transactionsLst
+                             where trans.CreditAmount > 0
+                             group trans by new
+                             {
+                                 Tag = trans.Tag,
+                             } into grp
+                             select new TagSummary()
+                             {
+                                 Type = "C",
+                                 Tag = grp.Key.Tag,
+                                 Amount = grp.Sum(o => o.CreditAmount),
+                                 Details = (from transDetail in transactionsLst
+                                            where transDetail.Tag == grp.Key.Tag && transDetail.CreditAmount > 0
+                                            orderby transDetail.TransactionDate.Year, transDetail.TransactionDate.Month
+                                            group transDetail by new
+                                            {
+                                                Tag = transDetail.Tag,
+                                                Month = transDetail.TransactionDate.Month,
+                                                Year = transDetail.TransactionDate.Year
+                                            } into grpDetail
+                                            select new TagSummaryDetails()
+                                            {
+                                                Year = grpDetail.Key.Year,
+                                                Month = grpDetail.Key.Month,
+                                                Amount = grpDetail.Sum(o => o.CreditAmount),
+                                            }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(period).ToList()
 
-            return lst;
+                             });
+
+            //
+
+            return debitTags.Union(creditTags).OrderByDescending(o => o.Amount).ToList();
         }
 
 
@@ -188,7 +164,7 @@ namespace BankA.Data.Repositories
                                   DebitAmount = s.DebitAmount,
                                   Balance = balance
                               };
-                          }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(12).ToList();
+                          }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(period).ToList();
 
             return result = result.OrderBy(o => o.Year).ThenBy(o => o.Month).ToList();
         }

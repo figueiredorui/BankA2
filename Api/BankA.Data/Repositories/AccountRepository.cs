@@ -12,6 +12,7 @@ using BankA.Models.Reports;
 using BankA.Models.Transactions;
 using System.Linq.Expressions;
 using BankA.Models.Tags;
+using BankA.Data.Helpers;
 
 namespace BankA.Data.Repositories
 {
@@ -44,7 +45,7 @@ namespace BankA.Data.Repositories
             return result;
         }
 
-        public AccountSummary GetAccountSummary(int accountId)
+        public AccountSummary GetAccountSummary(int accountId, int period)
         {
             var result = new AccountSummary();
 
@@ -66,14 +67,14 @@ namespace BankA.Data.Repositories
 
             var transactions = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
 
-            result.CreditAmount = (decimal?)transactions.Sum(sum => sum.CreditAmount) ?? 0;
-            result.DebitAmount = (decimal?)transactions.Sum(sum => sum.DebitAmount) ?? 0;
+            result.CreditAmount = (decimal?)transactions.Where(q => q.TransactionDate >= DateTimeHelper.StartPriod(period)).Sum(sum => sum.CreditAmount) ?? 0;
+            result.DebitAmount = (decimal?)transactions.Where(q => q.TransactionDate >= DateTimeHelper.StartPriod(period)).Sum(sum => sum.DebitAmount) ?? 0;
+            result.Balance = (decimal?)transactions.Sum(sum => sum.CreditAmount - sum.DebitAmount) ?? 0;
             result.FirstTransactionDate = (DateTime?)transactions.Min(m => m.TransactionDate) ?? DateTime.MinValue;
             result.LastTransactionDate = (DateTime?)transactions.Max(m => m.TransactionDate) ?? DateTime.MinValue;
 
             return result;
         }
-
 
         public Account Get(int id)
         {

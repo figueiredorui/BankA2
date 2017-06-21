@@ -12,7 +12,7 @@ namespace BankA.Models.Accounts
         public string Description { get; set; }
         public decimal CreditAmount { get; set; }
         public decimal DebitAmount { get; set; }
-        public decimal Balance { get { return CreditAmount - DebitAmount; } }
+        public decimal Balance { get; set; }
         public DateTime FirstTransactionDate { get; set; }
         public DateTime LastTransactionDate { get; set; }
     }
