@@ -1,8 +1,9 @@
-<div class="row" style="height:100px">
-
+<div class="row">
   <div class="col-xs-9">
-    <div [ngBusy]="isBusy"></div>
+
+
     <div class="row" *ngIf="Account">
+      <div [ngBusy]="isBusy"></div>
       <div class="col-xs-3">
         <small class="stats-label">Income</small>
         <h4>{{Account.CreditAmount | currencyGBP}}</h4>
@@ -21,29 +22,28 @@
         <h5>{{Account.LastTransactionDate | date}}</h5>
       </div>
     </div>
-  </div>
-  <div class="col-xs-3">
-    <small class="stats-label">Balance</small>
-    <div sparkline [sparklineOptions]="sparkOptions2" [(sparklineValues)]="sparklineValues"></div>
-  </div>
-</div>
-<div class="row" style="height:250px">
 
-  <div class="col-xs-9">
-    <div class="row">
-      <div class="col-xs-7">
-        <h4 class="title">Monthly Cash Flow</h4>
-      </div>
-      <div class="col-xs-5">
 
+    <div class="row" style="height:300px">
+
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-7">
+            <h4 class="title">Monthly Cash Flow</h4>
+          </div>
+          <div class="col-xs-5">
+
+          </div>
+        </div>
+        <canvas *ngIf="transactions" baseChart width="400" height="80" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="true" [chartType]="'bar'" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
       </div>
     </div>
-    <canvas *ngIf="transactions" baseChart width="400" height="60" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
-      [colors]="lineChartColors" [legend]="true" [chartType]="'line'" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+
+
   </div>
-
-
   <div class="col-xs-3">
+
     <div class="row">
       <div class="col-xs-7">
         <h4 class="title">Top 10 Expenses</h4>
@@ -53,8 +53,8 @@
       </div>
     </div>
     <canvas baseChart *ngIf="pieData" [chartType]="'pie'" [options]="lineChartOptions" [datasets]="pieData.datasets" [colors]="lineChartColors"
-      [labels]="pieData.labels" [legend]="true" width="100" height="50"></canvas>
+      [labels]="pieData.labels" [legend]="true" width="100" height="80"></canvas>
+
   </div>
-
-
 </div>
+

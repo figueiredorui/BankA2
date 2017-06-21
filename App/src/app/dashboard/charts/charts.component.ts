@@ -21,16 +21,18 @@ export class ChartsComponent implements OnInit {
 
   public lineChartData: Array<any>;
   public pieData: any;
-  public Account:any;
+  public Account: any;
 
   public lineChartLabels: Array<any>;
 
-  public lineChartOptions: any = { responsive: true,
-  legend: {
-                        position: 'right',
-                        labels:{fontSize: 9, fontColor: 'rgb(255, 99, 132)'}
-                    },
-                   };
+  public lineChartOptions: any = {
+    responsive: true,
+    type: 'bar',
+    legend: {
+      position: 'bottom',
+      labels: { fontSize: 9, fontColor: 'rgb(255, 99, 132)' }
+    },
+  };
 
 
   public transactions: CashFlow[];
@@ -38,19 +40,19 @@ export class ChartsComponent implements OnInit {
   public sparklineValues: any = []
 
   public sparkOptions2 = {
-        type: 'line',
-        height: 80,
-        width: '100%',
-        lineWidth: 2,
-        lineColor: this.colors.byName('info'),
-        spotColor: this.colors.byName('info'),
-        minSpotColor: this.colors.byName('info'),
-        maxSpotColor: this.colors.byName('info'),
-        fillColor: '',
-        highlightLineColor: this.colors.byName('info'),
-        spotRadius: 3,
-        resize: true
-    };
+    type: 'line',
+    height: 80,
+    width: '100%',
+    lineWidth: 2,
+    lineColor: this.colors.byName('info'),
+    spotColor: this.colors.byName('info'),
+    minSpotColor: this.colors.byName('info'),
+    maxSpotColor: this.colors.byName('info'),
+    fillColor: '',
+    highlightLineColor: this.colors.byName('info'),
+    spotRadius: 3,
+    resize: true
+  };
 
 
   @Input()
@@ -92,6 +94,9 @@ export class ChartsComponent implements OnInit {
           {
             data: this.transactions.map(x => x.DebitAmount), label: 'Expenses'
           },
+          {
+            data: this.transactions.map(x => x.Balance), label: 'Balance', type: 'line'
+          },
         ];
         this.lineChartLabels = this.transactions.map(x => x.MonthYear);
 
@@ -104,14 +109,14 @@ export class ChartsComponent implements OnInit {
     this.transactionsService.getTagExpenses(accountID)
       .subscribe(data => {
 
-         this.pieData = {
-           labels: data.map(x => x.Tag).slice(1, 10),
-           datasets: [{
-             data: data.map(x => x.Amount).slice(1, 10),
-           }]
-         };
+        this.pieData = {
+          labels: data.map(x => x.Tag).slice(1, 10),
+          datasets: [{
+            data: data.map(x => x.Amount).slice(1, 10),
+          }]
+        };
 
-        
+
 
       }, err => {
         this.errorMsg = err;

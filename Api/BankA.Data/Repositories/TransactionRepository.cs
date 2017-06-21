@@ -138,7 +138,7 @@ namespace BankA.Data.Repositories
             return lst;
         }
 
-       
+
 
         public List<MonthlyCashFlow> GetMonthlyCashFlow(int accountId)
         {
@@ -146,6 +146,7 @@ namespace BankA.Data.Repositories
                                         .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
                                             && q.TransactionDate <= DateTime.Now);
 
+            decimal balance = 0;
             var result = (from item in transactionsLst
                           group item by new
                           {
@@ -153,12 +154,24 @@ namespace BankA.Data.Repositories
                               Year = item.TransactionDate.Year
                           } into grp
                           orderby grp.Key.Year, grp.Key.Month
-                          select new MonthlyCashFlow()
+                          select new
                           {
                               Month = grp.Key.Month,
                               Year = grp.Key.Year,
-                              CreditAmount = grp.Sum(o => o.CreditAmount),
                               DebitAmount = grp.Sum(o => o.DebitAmount),
+                              CreditAmount = grp.Sum(o => o.CreditAmount),
+                          }).ToList()
+                          .Select(s =>
+                          {
+                              balance += s.DebitAmount - s.CreditAmount;
+                              return new MonthlyCashFlow()
+                              {
+                                  Month = s.Month,
+                                  Year = s.Year,
+                                  CreditAmount = s.CreditAmount,
+                                  DebitAmount = s.DebitAmount,
+                                  Balance = balance
+                              };
                           }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(12).ToList();
 
             return result = result.OrderBy(o => o.Year).ThenBy(o => o.Month).ToList();

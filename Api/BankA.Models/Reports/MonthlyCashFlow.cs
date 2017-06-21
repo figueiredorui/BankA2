@@ -12,7 +12,7 @@ namespace BankA.Models.Reports
         public string MonthYear { get { return $"{DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(Month)}/{Year}"; } }
         public decimal DebitAmount { get; set; }
         public decimal CreditAmount { get; set; }
-        public decimal Balance { get { return CreditAmount - DebitAmount; } }
+        public decimal Balance { get; set; }
 
     }
 }
