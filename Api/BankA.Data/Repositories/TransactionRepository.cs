@@ -29,7 +29,6 @@ namespace BankA.Data.Repositories
             int pageSize = 20;
             var transactions = base.Table<BankTransaction>()
                         .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-                                && q.TransactionDate <= DateTime.Now
                                 && (q.Description.Contains(search.Query) || q.Tag.Contains(search.Query)))
                         .OrderByDescending(o => o.TransactionDate)
                         .ProjectTo<Transaction>().ToList();
@@ -45,29 +44,40 @@ namespace BankA.Data.Repositories
             return result;
         }
 
-        public List<TagSummary> GetTags(int accountId)
+        private decimal GetBalance(int accountId, DateTime date)
         {
             var transactionsLst = base.Table<BankTransaction>()
-                                        .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-                                            && q.TransactionDate <= DateTime.Now);
+                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+                && q.TransactionDate < date);
 
-            var totalDebit = transactionsLst.Sum(s => s.DebitAmount);
+            var balance = (decimal?)transactionsLst.Sum(sum => sum.CreditAmount - sum.DebitAmount) ?? 0;
 
-            var result = (from item in transactionsLst
-                          group item by new { Tag = item.Tag } into grp
-                          select new TagSummary
-                          {
-                              Tag = grp.Key.Tag,
-                              Amount = grp.Sum(s => s.DebitAmount),
-                              Percentage = grp.Sum(s => s.DebitAmount) / totalDebit
-                          }).OrderByDescending(o => o.Amount).ToList();
-
-            foreach (var item in result)
-                if (string.IsNullOrEmpty(item.Tag))
-                    item.Tag = "None";
-
-            return result;
+            return balance;
         }
+
+        //public List<TagSummary> GetTags(int accountId)
+        //{
+        //    var transactionsLst = base.Table<BankTransaction>()
+        //                                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+        //                                    && q.TransactionDate <= DateTime.Now);
+
+        //    var totalDebit = transactionsLst.Sum(s => s.DebitAmount);
+
+        //    var result = (from item in transactionsLst
+        //                  group item by new { Tag = item.Tag } into grp
+        //                  select new TagSummary
+        //                  {
+        //                      Tag = grp.Key.Tag,
+        //                      Amount = grp.Sum(s => s.DebitAmount),
+        //                      Percentage = grp.Sum(s => s.DebitAmount) / totalDebit
+        //                  }).OrderByDescending(o => o.Amount).ToList();
+
+        //    foreach (var item in result)
+        //        if (string.IsNullOrEmpty(item.Tag))
+        //            item.Tag = "None";
+
+        //    return result;
+        //}
 
 
 
@@ -97,13 +107,17 @@ namespace BankA.Data.Repositories
         //    return lst;
         //}
 
-        public List<TagExpenses> GetTagExpenses(int accountId, DateTime startDate, DateTime endDate)
+        private DateTime StartPriod(int period)
+        {
+            var date = DateTime.Now.AddMonths(-period);
+            return new DateTime(date.Year, date.Month, 1);
+        }
+
+        public List<TagExpenses> GetTagExpenses(int accountId, int period)
         {
             var transactionsLst = base.Table<BankTransaction>()
                                                        .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-                                                           
-                                                            && q.TransactionDate >= startDate
-                                                            && q.TransactionDate <= endDate
+                                                            && q.TransactionDate >= StartPriod(period)
                                                             && q.DebitAmount > 0);
 
             var lst = (from trans in transactionsLst
@@ -140,11 +154,13 @@ namespace BankA.Data.Repositories
 
 
 
-        public List<MonthlyCashFlow> GetMonthlyCashFlow(int accountId)
+        public List<MonthlyCashFlow> GetMonthlyCashFlow(int accountId, int period)
         {
             var transactionsLst = base.Table<BankTransaction>()
                                         .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
-                                            && q.TransactionDate <= DateTime.Now);
+                                           // && q.IsTransfer == false
+                                           //  && q.TransactionDate >= StartPriod(period)
+                                           );
 
             decimal balance = 0;
             var result = (from item in transactionsLst
@@ -163,7 +179,7 @@ namespace BankA.Data.Repositories
                           }).ToList()
                           .Select(s =>
                           {
-                              balance += s.DebitAmount - s.CreditAmount;
+                              balance += s.CreditAmount - s.DebitAmount;
                               return new MonthlyCashFlow()
                               {
                                   Month = s.Month,

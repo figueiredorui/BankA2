@@ -30,8 +30,12 @@ export class TransactionsComponent implements OnInit {
 
   public tags: string[] = [];
 
+  private _accountID: number;
+
   @Input()
-  set accountID(accountID: number) {
+  set accountID(value: number) {
+    this._accountID = value;
+
     this.Search()
   }
 
@@ -56,17 +60,17 @@ export class TransactionsComponent implements OnInit {
 
   public Search() {
     const search: TransactionSearch = { Page: 1, Query: this.search };
-    this.LoadTransactions(this.accountID, search);
+    this.LoadTransactions(this._accountID, search);
   }
 
   public getPage(page: number) {
     this.loading = true;
     const search: TransactionSearch = { Page: page, Query: this.search };
-    this.LoadTransactions(this.accountID, search);
+    this.LoadTransactions(this._accountID, search);
   }
 
   public ImportFile() {
-    const disposable = this.dialogService.addDialog(ImportComponent, { accountID: this.accountID }, { backdropColor: 'rgba(0, 0, 0, 0.4)' })
+    const disposable = this.dialogService.addDialog(ImportComponent, { accountID: this._accountID }, { backdropColor: 'rgba(0, 0, 0, 0.4)' })
       .subscribe((isConfirmed) => {
         this.Search();
       });
@@ -89,7 +93,7 @@ export class TransactionsComponent implements OnInit {
 
   private Refresh() {
     const search: TransactionSearch = { Page: this.page, Query: this.search };
-    this.LoadTransactions(this.accountID, search);
+    this.LoadTransactions(this._accountID, search);
   }
 
   private LoadTransactions(accountID: number, search: TransactionSearch) {

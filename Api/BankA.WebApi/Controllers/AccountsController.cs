@@ -79,7 +79,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = transactionRepository.GetMonthlyCashFlow(id);
+                var result = transactionRepository.GetMonthlyCashFlow(id, 12);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -109,7 +109,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = transactionRepository.GetTagExpenses(id, DateTime.Now.AddMonths(-12), DateTime.Now);
+                var result = transactionRepository.GetTagExpenses(id, 12);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -247,18 +247,18 @@ namespace BankA.Api.Controllers
         }
 
         // GET: api/Accounts/5/files
-        [HttpGet("{accountId}/tags")]
-        public IActionResult GetTags(int accountId)
-        {
-            try
-            {
-                var result = transactionRepository.GetTags(accountId);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex);
-            }
-        }
+        //[HttpGet("{accountId}/tags")]
+        //public IActionResult GetTags(int accountId)
+        //{
+        //    try
+        //    {
+        //        var result = transactionRepository.GetTags(accountId);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return HandleException(ex);
+        //    }
+        //}
     }
 }
