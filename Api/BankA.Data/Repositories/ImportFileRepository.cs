@@ -112,6 +112,7 @@ namespace BankA.Data.Repositories
                         transaction.TransactionDate = csv.GetField<DateTime>(importCsvDefinition.TransactionDate_Index);
                         transaction.TransactionType = ParseTransactionType(csv, importCsvDefinition.TransactionType_Index);
                         transaction.Description = csv.GetField<string>(importCsvDefinition.Description_Index);
+                        transaction.Tag = csv.GetField<string>(importCsvDefinition.Tag_Index);
 
                         if (importCsvDefinition.Amount_Index > -1) {
                             var amount = ParseAmount(csv, importCsvDefinition.Amount_Index);
@@ -197,6 +198,10 @@ namespace BankA.Data.Repositories
 
             if (importCsvDefinition.Description_Index < 0)
                 throw new Exception("Description mapping is required");
+
+
+            if (importCsvDefinition.Amount_Index < 0 && importCsvDefinition.CreditAmount_Index < 0 && importCsvDefinition.DebitAmount_Index < 0)
+                throw new Exception("Amount or CreditAmount/DebitAmount mapping is required");
 
             //TODO
             //more validations

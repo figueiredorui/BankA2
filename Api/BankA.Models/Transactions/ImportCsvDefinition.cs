@@ -12,6 +12,7 @@ namespace BankA.Models.Transactions
         public int DebitAmount_Index { get; set; }
         public int CreditAmount_Index { get; set; }
         public int Amount_Index { get; set; }
+        public int Tag_Index { get; set; }
     }
 
 

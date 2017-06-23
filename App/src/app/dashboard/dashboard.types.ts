@@ -4,7 +4,9 @@ export interface CashFlow {
   Month: number;
   MonthYear: string;
   DebitAmount: number;
+  TransferOutAmount: number;
   CreditAmount: number;
+  TransferInAmount: number;
   Balance: number;
 }
 
@@ -37,6 +39,7 @@ export interface Transaction {
   CreditAmount: number;
   Tag: string;
   Balance: number;
+  IsTransfer: boolean;
 }
 
 export interface ImportCsvDefinition {
@@ -47,6 +50,7 @@ export interface ImportCsvDefinition {
   DebitAmount_Index: number;
   CreditAmount_Index: number;
   Amount_Index: number;
+  Tag_Index: number;
 }
 
 export interface TransactionResult {

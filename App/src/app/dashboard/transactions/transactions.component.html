@@ -20,7 +20,7 @@
 				</form>
 			</div>
 			<div class="col-xs-6">
-				<button type="button" class="btn btn-success pull-right" (click)="ImportFile()"><i class="fa fa-upload"></i> Import File</button>
+				<button *ngIf="accountID>0" type="button" class="btn btn-success pull-right" (click)="ImportFile()"><i class="fa fa-upload"></i> Import File</button>
 			</div>
 		</div>
 
@@ -32,9 +32,10 @@
 				<th width="70px">Transfer</th>
 				<!--<th width="60px">Type</th>-->
 				<th>Description</th>
-				<th width="150px" style="text-align:right" >Amount</th>
+				<th width="150px" style="text-align:right">Amount</th>
 				<th width="200px">Tag</th>
 				<th width="50px"></th>
+				<th width="20px"></th>
 			</thead>
 			<tbody>
 				<tr *ngFor="let transaction of transactions | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: page, totalItems: total }">
@@ -44,12 +45,23 @@
 					<td>{{transaction.Description}}</td>
 					<td style="text-align:right"><strong [className]="transaction.Balance > 0 ? 'text-success' : 'text-warning'"> {{transaction.Balance | currencyGBP }}</strong></td>
 					<td class="input-tag-column">
-						<ng2-completer [(ngModel)]="transaction.Tag" inputClass="form-control input-sm "  [datasource]="tags" [minSearchLength]="0"
+						<ng2-completer [(ngModel)]="transaction.Tag" inputClass="form-control input-sm " [datasource]="tags" [minSearchLength]="0"
 						 (blur)="onTagChanged(transaction)"></ng2-completer>
 					</td>
 					<td class="tag-column">
 						<button class="btn btn-link" *ngIf="!transaction.Tag" (click)=addTag(transaction) data-toggle="tooltip" data-placement="bottom"
 						 title="Add Tag"><i class="fa fa-tags"></i></button>
+					</td>
+					<td class="tag-column">
+						<div class="btn-group">
+							<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    							<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+  							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a *ngIf="!transaction.IsTransfer" (click)=MarkAsTransfer(transaction) >Mark as Transfer</a></li>
+								<li><a *ngIf="transaction.IsTransfer" (click)=UnmarkAsTransfer(transaction)>Unmark as Transfer</a></li>
+							</ul>
+						</div>
 					</td>
 				</tr>
 			</tbody>

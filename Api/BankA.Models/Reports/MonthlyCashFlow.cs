@@ -11,7 +11,9 @@ namespace BankA.Models.Reports
         public int Month { get; set; }
         public string MonthYear { get { return $"{DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(Month)}/{Year}"; } }
         public decimal DebitAmount { get; set; }
+        public decimal TransferOutAmount { get; set; }
         public decimal CreditAmount { get; set; }
+        public decimal TransferInAmount { get; set; }
         public decimal Balance { get; set; }
 
     }

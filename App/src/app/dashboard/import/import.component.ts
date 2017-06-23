@@ -123,6 +123,7 @@ export class ImportComponent extends DialogComponent<ImportParam, boolean> imple
     this.FieldNameLookup.push('CreditAmount');
     this.FieldNameLookup.push('DebitAmount');
     this.FieldNameLookup.push('Amount');
+    this.FieldNameLookup.push('Tag');
 
   }
 
@@ -144,6 +145,8 @@ export class ImportComponent extends DialogComponent<ImportParam, boolean> imple
         this.ColumnMapping[importCsvDefinition.DebitAmount_Index].ColumnFieldMap = 'DebitAmount';
       if (importCsvDefinition.Amount_Index > -1)
         this.ColumnMapping[importCsvDefinition.Amount_Index].ColumnFieldMap = 'Amount';
+      if (importCsvDefinition.Tag_Index > -1)
+        this.ColumnMapping[importCsvDefinition.Tag_Index].ColumnFieldMap = 'Tag';
     }
   }
 
@@ -156,7 +159,8 @@ export class ImportComponent extends DialogComponent<ImportParam, boolean> imple
       Description_Index: -1,
       DebitAmount_Index: -1,
       CreditAmount_Index: -1,
-      Amount_Index: -1
+      Amount_Index: -1,
+      Tag_Index: -1,
     };
 
     for (const i in this.ColumnMapping) {
@@ -177,6 +181,9 @@ export class ImportComponent extends DialogComponent<ImportParam, boolean> imple
       }
       if (this.ColumnMapping[i].ColumnFieldMap === 'Amount') {
         importDefinition.Amount_Index = Number(i);
+      }
+      if (this.ColumnMapping[i].ColumnFieldMap === 'Tag') {
+        importDefinition.Tag_Index = Number(i);
       }
     }
 

@@ -12,6 +12,7 @@ using BankA.Models.Reports;
 using BankA.Models.Tags;
 using System.Globalization;
 using BankA.Data.Helpers;
+using System.Linq.Expressions;
 
 namespace BankA.Data.Repositories
 {
@@ -44,6 +45,8 @@ namespace BankA.Data.Repositories
 
             return result;
         }
+
+       
 
         public List<TagExpense> GetTop10Expenses(int accountId, int period)
         {
@@ -132,10 +135,18 @@ namespace BankA.Data.Repositories
             return debitTags.Union(creditTags).OrderByDescending(o => o.Amount).ToList();
         }
 
+        private IQueryable<BankTransaction> Filtered(int accountId, int year, int month, bool isTranfer)
+        {
+            return base.Table<BankTransaction>()
+                                        .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+                                           && q.TransactionDate.Year == year && q.TransactionDate.Month == month && q.IsTransfer == isTranfer
+                                           );
+        }
 
 
         public List<MonthlyCashFlow> GetMonthlyCashFlow(int accountId, int period)
         {
+
             var transactionsLst = base.Table<BankTransaction>()
                                         .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
                                            // && q.IsTransfer == false
@@ -154,18 +165,22 @@ namespace BankA.Data.Repositories
                           {
                               Month = grp.Key.Month,
                               Year = grp.Key.Year,
-                              DebitAmount = grp.Sum(o => o.DebitAmount),
-                              CreditAmount = grp.Sum(o => o.CreditAmount),
+                              DebitAmount = transactionsLst.Where(q => q.TransactionDate.Year == grp.Key.Year && q.TransactionDate.Month == grp.Key.Month && q.IsTransfer == false).Sum(o => o.DebitAmount),
+                              TransferOutAmount = transactionsLst.Where(q => q.TransactionDate.Year == grp.Key.Year && q.TransactionDate.Month == grp.Key.Month && q.IsTransfer == true).Sum(o => o.DebitAmount),
+                              CreditAmount = transactionsLst.Where(q => q.TransactionDate.Year == grp.Key.Year && q.TransactionDate.Month == grp.Key.Month && q.IsTransfer == false).Sum(o => o.CreditAmount),
+                              TransferInAmount = transactionsLst.Where(q => q.TransactionDate.Year == grp.Key.Year && q.TransactionDate.Month == grp.Key.Month && q.IsTransfer == true).Sum(o => o.CreditAmount),
                           }).ToList()
                           .Select(s =>
                           {
-                              balance += s.CreditAmount - s.DebitAmount;
+                              balance += (s.CreditAmount + s.TransferInAmount) - (s.DebitAmount - s.TransferOutAmount);
                               return new MonthlyCashFlow()
                               {
                                   Month = s.Month,
                                   Year = s.Year,
                                   CreditAmount = s.CreditAmount,
+                                  TransferInAmount = s.TransferInAmount,
                                   DebitAmount = s.DebitAmount,
+                                  TransferOutAmount = s.TransferOutAmount,
                                   Balance = balance
                               };
                           }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(period).ToList();
@@ -177,6 +192,13 @@ namespace BankA.Data.Repositories
         {
             var transaction = base.Find<BankTransaction>(transactionId);
             transaction.Tag = tag;
+            base.Update(transaction);
+        }
+
+        public void MarkAsTransfer(int transactionId, bool isTransfer)
+        {
+            var transaction = base.Find<BankTransaction>(transactionId);
+            transaction.IsTransfer = isTransfer;
             base.Update(transaction);
         }
 

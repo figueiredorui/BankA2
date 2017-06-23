@@ -7,11 +7,13 @@
       <div class="col-xs-3">
         <small class="stats-label">Income</small>
         <h4>{{Account.CreditAmount | currencyGBP}}</h4>
+        <h4>{{Account.TransferInAmount | currencyGBP}}<small class="stats-label"> Transfered In</small></h4>
       </div>
 
       <div class="col-xs-3">
         <small class="stats-label">Expenses</small>
         <h4>{{Account.DebitAmount | currencyGBP}}</h4>
+        <h4>{{Account.TransferOutAmount | currencyGBP}}<small class="stats-label"> Transfered Out</small></h4>
       </div>
       <div class="col-xs-3">
         <small class="stats-label">Balance</small>

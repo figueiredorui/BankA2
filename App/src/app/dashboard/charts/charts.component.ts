@@ -35,15 +35,17 @@ export class ChartsComponent implements OnInit {
   };
 
 
-// window.chartColors = {
-// 	red: 'rgb(255, 99, 132)',
-// 	orange: 'rgb(255, 159, 64)',
-// 	yellow: 'rgb(255, 205, 86)',
-// 	green: 'rgb(75, 192, 192)',
-// 	blue: 'rgb(54, 162, 235)',
-// 	purple: 'rgb(153, 102, 255)',
-// 	grey: 'rgb(201, 203, 207)'
-// };
+ 
+
+  // window.chartColors = {
+  // 	red: 'rgb(255, 99, 132)',
+  // 	orange: 'rgb(255, 159, 64)',
+  // 	yellow: 'rgb(255, 205, 86)',
+  // 	green: 'rgb(75, 192, 192)',
+  // 	blue: 'rgb(54, 162, 235)',
+  // 	purple: 'rgb(153, 102, 255)',
+  // 	grey: 'rgb(201, 203, 207)'
+  // };
 
   public transactions: CashFlow[];
 
@@ -99,20 +101,21 @@ export class ChartsComponent implements OnInit {
 
         this.lineChartData = [
           {
-             stack: 'Stack 0',
+            stack: 'Stack 0',
             data: this.transactions.map(x => x.CreditAmount), label: 'Income'
           },
-           {
-              stack: 'Stack 0',
-            data: [0,100,0,2000], label: 'Income 1'
+          {
+            stack: 'Stack 0',
+            data: this.transactions.map(x => x.TransferInAmount), label: 'Transfer In',
+            backgroundColor:'rgba(255, 99, 132, 0.2)'
           },
           {
-             stack: 'Stack 1',
+            stack: 'Stack 1',
             data: this.transactions.map(x => x.DebitAmount), label: 'Expenses'
           },
           {
-              stack: 'Stack 1',
-            data: [0,1000,0,200], label: 'Income 1'
+            stack: 'Stack 1',
+            data: this.transactions.map(x => x.TransferOutAmount), label: 'Transfer Out'
           },
           {
             data: this.transactions.map(x => x.Balance), label: 'Balance', type: 'line'
@@ -121,6 +124,8 @@ export class ChartsComponent implements OnInit {
         this.lineChartLabels = this.transactions.map(x => x.MonthYear);
 
         this.sparklineValues = this.transactions.map(x => x.Balance)
+
+        
 
       }, err => {
         this.errorMsg = err;

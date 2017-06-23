@@ -47,6 +47,13 @@ export class TransactionsService extends HttpApiService {
       .catch(super.handleError2);
   }
 
+  public markAsTransfer(transaction: Transaction): Observable<Transaction> {
+    const url = `${this.baseUrl}/transactions/${transaction.TransactionId}/markastransfer`;
+    return this.http.put(url, JSON.stringify(transaction.IsTransfer))
+      .map(response => response as any)
+      .catch(super.handleError2);
+  }
+
   public import(accountID: number, importDefinition: ImportCsvDefinition, file: any): Observable<any> {
     const headers = new Headers();
     headers.delete('Content-Type');

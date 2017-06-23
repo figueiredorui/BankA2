@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
-import { ChartsModule } from 'ng2-charts';
+//import { ChartsModule } from 'ng2-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2CompleterModule } from "ng2-completer";
 import { BusyModule, BusyConfig, BUSY_CONFIG_DEFAULTS } from 'angular2-busy';
@@ -23,6 +23,7 @@ import { TransactionsService } from '../services/transactions.service';
 import { FileService } from '../services/file.service';
 import { ColorsService } from '../core/services/colors.service';
 
+
 const busyConfig: BusyConfig = {
     message: '',
     delay: BUSY_CONFIG_DEFAULTS.delay,
@@ -37,7 +38,7 @@ const busyConfig: BusyConfig = {
   imports: [
     CommonModule,
     FormsModule,
-    ChartsModule,
+  //  ChartsModule,
     RouterModule,
     BootstrapModalModule,
     NgxPaginationModule,

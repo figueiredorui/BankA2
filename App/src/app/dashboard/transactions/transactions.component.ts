@@ -30,11 +30,11 @@ export class TransactionsComponent implements OnInit {
 
   public tags: string[] = [];
 
-  private _accountID: number;
+  public accountID: number;
 
   @Input()
-  set accountID(value: number) {
-    this._accountID = value;
+  set showAccountID(value: number) {
+    this.accountID = value;
 
     this.Search()
   }
@@ -42,7 +42,7 @@ export class TransactionsComponent implements OnInit {
   constructor(
     private transactionsService: TransactionsService,
     private tagsService: TagService,
-    
+
     private dialogService: DialogService,
   ) { }
 
@@ -60,17 +60,17 @@ export class TransactionsComponent implements OnInit {
 
   public Search() {
     const search: TransactionSearch = { Page: 1, Query: this.search };
-    this.LoadTransactions(this._accountID, search);
+    this.LoadTransactions(this.accountID, search);
   }
 
   public getPage(page: number) {
     this.loading = true;
     const search: TransactionSearch = { Page: page, Query: this.search };
-    this.LoadTransactions(this._accountID, search);
+    this.LoadTransactions(this.accountID, search);
   }
 
   public ImportFile() {
-    const disposable = this.dialogService.addDialog(ImportComponent, { accountID: this._accountID }, { backdropColor: 'rgba(0, 0, 0, 0.4)' })
+    const disposable = this.dialogService.addDialog(ImportComponent, { accountID: this.accountID }, { backdropColor: 'rgba(0, 0, 0, 0.4)' })
       .subscribe((isConfirmed) => {
         this.Search();
       });
@@ -82,7 +82,7 @@ export class TransactionsComponent implements OnInit {
         if (tag) {
           transaction.Tag = tag.Tag;
           this.transactionsService.updateTag(transaction)
-            .subscribe(data => { 
+            .subscribe(data => {
               this.Refresh();
             },
             err => this.errorMsg = err);
@@ -91,9 +91,27 @@ export class TransactionsComponent implements OnInit {
       });
   }
 
+  public MarkAsTransfer(transaction: Transaction) {
+    transaction.IsTransfer = true;
+    this.transactionsService.markAsTransfer(transaction)
+      .subscribe(data => {
+        this.Refresh();
+      },
+      err => this.errorMsg = err);
+  }
+
+  public UnmarkAsTransfer(transaction: Transaction) {
+    transaction.IsTransfer = false;
+    this.transactionsService.markAsTransfer(transaction)
+      .subscribe(data => {
+        this.Refresh();
+      },
+      err => this.errorMsg = err);
+  }
+
   private Refresh() {
     const search: TransactionSearch = { Page: this.page, Query: this.search };
-    this.LoadTransactions(this._accountID, search);
+    this.LoadTransactions(this.accountID, search);
   }
 
   private LoadTransactions(accountID: number, search: TransactionSearch) {

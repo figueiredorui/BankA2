@@ -40,5 +40,21 @@ namespace BankA.Api.Controllers
             }
         }
 
+
+        // PUT: api/transactions/5/markastransfer/true
+        [HttpPut("{id}/markastransfer")]
+        public IActionResult Put(int id, [FromBody]bool isTransfer)
+        {
+            try
+            {
+                transactionsRepository.MarkAsTransfer(id, isTransfer);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
     }
 }
