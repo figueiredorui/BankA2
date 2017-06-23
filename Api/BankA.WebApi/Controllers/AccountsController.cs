@@ -123,7 +123,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = transactionRepository.GetTop10Expenses(id);
+                var result = transactionRepository.GetTop10Expenses(id, 12);
                 return Ok(result);
             }
             catch (Exception ex)

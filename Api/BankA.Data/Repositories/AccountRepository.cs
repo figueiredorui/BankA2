@@ -45,6 +45,16 @@ namespace BankA.Data.Repositories
             return result;
         }
 
+        private decimal GetBalance(int accountId)
+        {
+            var transactionsLst = base.Table<BankTransaction>()
+                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
+
+            var balance = (decimal?)transactionsLst.Sum(sum => sum.CreditAmount - sum.DebitAmount) ?? 0;
+
+            return balance;
+        }
+
         public AccountSummary GetAccountSummary(int accountId, int period)
         {
             var result = new AccountSummary();
@@ -65,11 +75,12 @@ namespace BankA.Data.Repositories
                 result.Description = "All Accounts";
             }
 
-            var transactions = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
+            var transactions = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+                                                                    && q.IsTransfer == false);
 
             result.CreditAmount = (decimal?)transactions.Where(q => q.TransactionDate >= DateTimeHelper.StartPriod(period)).Sum(sum => sum.CreditAmount) ?? 0;
             result.DebitAmount = (decimal?)transactions.Where(q => q.TransactionDate >= DateTimeHelper.StartPriod(period)).Sum(sum => sum.DebitAmount) ?? 0;
-            result.Balance = (decimal?)transactions.Sum(sum => sum.CreditAmount - sum.DebitAmount) ?? 0;
+            result.Balance = GetBalance(accountId);
             result.FirstTransactionDate = (DateTime?)transactions.Min(m => m.TransactionDate) ?? DateTime.MinValue;
             result.LastTransactionDate = (DateTime?)transactions.Max(m => m.TransactionDate) ?? DateTime.MinValue;
 

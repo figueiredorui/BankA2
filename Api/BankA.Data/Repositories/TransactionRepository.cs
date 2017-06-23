@@ -45,9 +45,12 @@ namespace BankA.Data.Repositories
             return result;
         }
 
-        public List<TagExpense> GetTop10Expenses(int accountId)
+        public List<TagExpense> GetTop10Expenses(int accountId, int period)
         {
-            var transactionsLst = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
+            var transactionsLst = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+                                                                    && q.IsTransfer == false
+                                                                    && q.DebitAmount > 0
+                                                                    && q.TransactionDate >= DateTimeHelper.StartPriod(period));
 
             var result = (from item in transactionsLst
                           group item by new { Tag = item.Tag } into grp
@@ -62,7 +65,8 @@ namespace BankA.Data.Repositories
 
         public List<TagSummary> GetTagDetails(int accountId, int period)
         {
-            var transactionsLst = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
+            var transactionsLst = base.Table<BankTransaction>().Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+                                                                    && q.IsTransfer == false);
 
             var debitTags = (from trans in transactionsLst
                              where trans.DebitAmount > 0
