@@ -49,7 +49,7 @@ namespace BankA.Api.Controllers
         {
             try
             {
-                var result = accountRepository.GetAccountSummary(id, 12);
+                var result = transactionRepository.GetAccountSummary(id, 12);
                 return Ok(result);
             }
             catch (Exception ex)

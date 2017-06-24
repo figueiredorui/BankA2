@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankA.Models.Transactions
 {
-    public class TransactionResult
+    public class TransationSearchResult
     {
         public int ItemsPerPage { get; set; }
         public int Page { get; set; }
