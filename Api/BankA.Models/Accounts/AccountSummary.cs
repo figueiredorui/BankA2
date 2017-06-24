@@ -15,6 +15,7 @@ namespace BankA.Models.Accounts
         public decimal CreditAmount { get; set; }
         public decimal TransferInAmount { get; set; }
         public decimal Balance { get; set; }
+        public bool SavingsAccount { get; set; }
 
         public DateTime FirstTransactionDate { get; set; }
         public DateTime LastTransactionDate { get; set; }

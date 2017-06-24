@@ -88,20 +88,20 @@ namespace BankA.Api.Controllers
             }
         }
 
-        // GET: api/Accounts/5/Expenses
-        //[HttpGet("{id}/Expenses")]
-        //public IActionResult GetExpenses(int id)
-        //{
-        //    try
-        //    {
-        //        var result = transactionRepository.GetExpenses(id, DateTime.MinValue, DateTime.MaxValue);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return HandleException(ex);
-        //    }
-        //}
+        //GET: api/Accounts/5/Balance
+        [HttpGet("{id}/Balance")]
+        public IActionResult GetBalance(int id)
+        {
+            try
+            {
+                var result = transactionRepository.GetBalance(id, 12);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
 
         // GET: api/Accounts/5/TagDetails
         [HttpGet("{id}/TagDetails")]

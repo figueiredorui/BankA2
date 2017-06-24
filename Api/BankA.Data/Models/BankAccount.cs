@@ -14,7 +14,8 @@ namespace BankA.Data.Models
         public string Description { get; set; }
         public string ImportCsvDefinition { get; set; }
         public bool Closed { get; set; }
-        
+        public bool SavingsAccount { get; set; }
+
         public virtual ICollection<BankTransaction> Transactions { get; set; }
     }
 }

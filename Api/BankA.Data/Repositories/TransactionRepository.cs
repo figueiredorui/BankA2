@@ -135,26 +135,7 @@ namespace BankA.Data.Repositories
             return debitTags.Union(creditTags).OrderByDescending(o => o.Amount).ToList();
         }
 
-        private List<BalanceView> GetBalance(int accountId, int period)
-        {
-            var transactionsLst = base.Table<BankTransaction>()
-                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
-
-            var result = (from item in transactionsLst
-                          group item by new
-                          {
-                              Month = item.TransactionDate.Month,
-                              Year = item.TransactionDate.Year
-                          } into grp
-                          orderby grp.Key.Year, grp.Key.Month
-                          select new BalanceView
-                          {
-                              Date = $"{grp.Key.Month}/{grp.Key.Year}",
-                              Balance = grp.Sum(sum => sum.CreditAmount - sum.DebitAmount),
-                          }).OrderByDescending(o => o.Date).Take(period).ToList();
-
-            return result = result.OrderBy(o => o.Date).ToList(); ;
-        }
+       
 
 
         public AccountSummary GetAccountSummary(int accountId, int period)
@@ -169,6 +150,7 @@ namespace BankA.Data.Repositories
                             {
                                 AccountId = s.AccountId,
                                 Description = s.Description,
+                                SavingsAccount = s.SavingsAccount,
                             }).ProjectTo<AccountSummary>().FirstOrDefault();
             }
             else
@@ -177,7 +159,14 @@ namespace BankA.Data.Repositories
                 result.Description = "All Accounts";
             }
 
-            var transactions = GetTransactionView(accountId).Where(q => q.TransactionDate >= DateTimeHelper.StartPriod(period));
+//            var transactions = GetTransactionView(accountId).Where(q => q.TransactionDate >= DateTimeHelper.StartPriod(period));
+
+            var transactions = base.Table<BankTransaction>()
+                                        .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId) 
+                                        && q.TransactionDate >= DateTimeHelper.StartPriod(period) 
+                                        && q.IsTransfer == (result.SavingsAccount ? q.IsTransfer : false));
+
+
 
             //var result1 = (from item in transactionsLst
             //               where item.TransactionDate >= DateTimeHelper.StartPriod(period)
@@ -191,10 +180,10 @@ namespace BankA.Data.Repositories
             //               }).FirstOrDefault();
 
             result.CreditAmount = (decimal?)transactions.Sum(sum => sum.CreditAmount) ?? 0;
-            result.TransferInAmount = (decimal?)transactions.Sum(sum => sum.TransferInAmount) ?? 0;
+           // result.TransferInAmount = (decimal?)transactions.Sum(sum => sum.TransferInAmount) ?? 0;
 
             result.DebitAmount = (decimal?)transactions.Sum(sum => sum.DebitAmount) ?? 0;
-            result.TransferOutAmount = (decimal?)transactions.Sum(sum => sum.TransferOutAmount) ?? 0;
+           // result.TransferOutAmount = (decimal?)transactions.Sum(sum => sum.TransferOutAmount) ?? 0;
             //  //result.Balance = GetBalance(accountId);
             result.Balance = (result.CreditAmount + result.TransferInAmount) - (result.DebitAmount + result.TransferOutAmount);
             result.FirstTransactionDate = (DateTime?)transactions.Min(m => m.TransactionDate) ?? DateTime.MinValue;
@@ -215,13 +204,59 @@ namespace BankA.Data.Repositories
 
             return result;
         }
+        public List<BalanceView> GetBalance(int accountId, int period)
+        {
+            var transactionsLst = base.Table<BankTransaction>()
+                .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId));
+
+            decimal balance = 0;
+            var result = (from item in transactionsLst
+                          group item by new
+                          {
+                              Month = item.TransactionDate.Month,
+                              Year = item.TransactionDate.Year
+                          } into grp
+                          orderby grp.Key.Year, grp.Key.Month
+                          select new
+                          {
+
+                              Month = grp.Key.Month,
+                              Year = grp.Key.Year,
+                              DebitAmount = grp.Sum(o => o.DebitAmount),
+                              CreditAmount = grp.Sum(o => o.CreditAmount),
+                          }).ToList()
+                           .Select(s =>
+                           {
+                               balance += ((s.CreditAmount) - (s.DebitAmount));
+                               return new BalanceView
+                               {
+                                   Month = s.Month,
+                                   Year = s.Year,
+                                   Date = $"{s.Month}/{s.Year}",
+                                   Balance = balance,
+                               };
+                           }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(period).ToList();
+            //.OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(period)
+            result.Reverse();
+            return result;
+        }
+
 
         public List<MonthlyCashFlow> GetMonthlyCashFlow(int accountId, int period)
         {
+            bool isSavingsAccount = false;
+            var account = base.Find<BankAccount>(accountId);
+            if (account != null)
+            {
+                isSavingsAccount = account.SavingsAccount;
+            }
+         //   var transactionsLst = GetTransactionView(accountId);
 
-            var transactionsLst = GetTransactionView(accountId);
+            var transactionsLst = base.Table<BankTransaction>()
+                                       .Where(q => q.AccountId == (accountId > 0 ? accountId : q.AccountId)
+                                         && q.IsTransfer == (isSavingsAccount ? q.IsTransfer : false));
 
-            decimal balance = 0;
+            // decimal balance = 0;
             var result = (from item in transactionsLst
                           group item by new
                           {
@@ -234,22 +269,22 @@ namespace BankA.Data.Repositories
                               Month = grp.Key.Month,
                               Year = grp.Key.Year,
                               DebitAmount = grp.Sum(o => o.DebitAmount),
-                              TransferOutAmount = grp.Sum(o => o.TransferOutAmount),
+                             // TransferOutAmount = grp.Sum(o => o.TransferOutAmount),
                               CreditAmount = grp.Sum(o => o.CreditAmount),
-                              TransferInAmount = grp.Sum(o => o.TransferInAmount),
+                             // TransferInAmount = grp.Sum(o => o.TransferInAmount),
                           }).ToList()
                           .Select(s =>
                           {
-                              balance += ((s.CreditAmount + s.TransferInAmount) - (s.DebitAmount + s.TransferOutAmount));
+                             // balance += ((s.CreditAmount + s.TransferInAmount) - (s.DebitAmount + s.TransferOutAmount));
                               return new MonthlyCashFlow()
                               {
                                   Month = s.Month,
                                   Year = s.Year,
                                   CreditAmount = s.CreditAmount,
-                                  TransferInAmount = s.TransferInAmount,
+                                 // TransferInAmount = s.TransferInAmount,
                                   DebitAmount = s.DebitAmount,
-                                  TransferOutAmount = s.TransferOutAmount,
-                                  Balance = balance
+                                 // TransferOutAmount = s.TransferOutAmount,
+                           //       Balance = balance
                               };
                           }).OrderByDescending(o => o.Year).ThenByDescending(o => o.Month).Take(period).ToList();
 

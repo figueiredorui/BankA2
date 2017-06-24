@@ -35,7 +35,7 @@ export class ChartsComponent implements OnInit {
   };
 
 
- 
+
 
   // window.chartColors = {
   // 	red: 'rgb(255, 99, 132)',
@@ -101,31 +101,47 @@ export class ChartsComponent implements OnInit {
 
         this.lineChartData = [
           {
-            stack: 'Stack 0',
+            // stack: 'Stack 0',
             data: this.transactions.map(x => x.CreditAmount), label: 'Income'
           },
+          // {
+          //   stack: 'Stack 0',
+          //   data: this.transactions.map(x => x.TransferInAmount), label: 'Transfer In',
+          //   backgroundColor:'rgba(255, 99, 132, 0.2)'
+          // },
           {
-            stack: 'Stack 0',
-            data: this.transactions.map(x => x.TransferInAmount), label: 'Transfer In',
-            backgroundColor:'rgba(255, 99, 132, 0.2)'
-          },
-          {
-            stack: 'Stack 1',
+            // stack: 'Stack 1',
             data: this.transactions.map(x => x.DebitAmount), label: 'Expenses'
           },
-          {
-            stack: 'Stack 1',
-            data: this.transactions.map(x => x.TransferOutAmount), label: 'Transfer Out'
-          },
-          {
-            data: this.transactions.map(x => x.Balance), label: 'Balance', type: 'line'
-          },
+          // {
+          //   stack: 'Stack 1',
+          //   data: this.transactions.map(x => x.TransferOutAmount), label: 'Transfer Out'
+          // },
+           {
+             data: this.transactions.map(x => x.DebitAmount), label: 'Balance', type: 'line'
+           },
         ];
         this.lineChartLabels = this.transactions.map(x => x.MonthYear);
 
-        this.sparklineValues = this.transactions.map(x => x.Balance)
+        this.transactionsService.getBalance(accountID)
+          .subscribe(data => {
 
-        
+           this.lineChartData = [
+          {
+            data: this.transactions.map(x => x.CreditAmount), label: 'Income'
+          },
+          {
+            data: this.transactions.map(x => x.DebitAmount), label: 'Expenses'
+          },
+           {
+             data: data.map(x => x.Balance), label: 'Balance', type: 'line'
+           },
+        ];
+
+
+          }, err => {
+            this.errorMsg = err;
+          });
 
       }, err => {
         this.errorMsg = err;

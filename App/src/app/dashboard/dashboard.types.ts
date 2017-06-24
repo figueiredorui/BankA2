@@ -18,6 +18,13 @@ export interface TagSummary {
   MonthlyAmount: Array<number>
 }
 
+
+
+export interface BalanceView {
+  Date: string
+  Balance: number
+}
+
 export interface TagSummaryDetails {
   Year: number
   Month: string

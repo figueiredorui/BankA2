@@ -17,11 +17,14 @@ import { Chart } from 'chart.js';
 @Directive({ selector: 'canvas[baseChart]', exportAs: 'base-chart' })
 export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     public static defaultColors: Array<number[]> = [
+         [75, 192, 152],
+         [247, 70, 74],
+         [54, 162, 235],
         [75, 192, 192],
-        [75, 192, 152],
+       
         [255, 99, 132],
-        [247, 70, 74],
-        [54, 162, 235],
+        
+        
         [255, 206, 86],
       //  [231, 233, 237],
         
