@@ -104,12 +104,12 @@ namespace BankA.Api.Controllers
         }
 
         // GET: api/Accounts/5/TagDetails
-        [HttpGet("{id}/TagDetails")]
-        public IActionResult TagDetails(int id)
+        [HttpGet("{id}/TagDetails/{tag}")]
+        public IActionResult TagDetails(int id, string tag)
         {
             try
             {
-                var result = transactionRepository.GetTagDetails(id, 12);
+                var result = transactionRepository.GetTagDetails(id, 12, tag);
                 return Ok(result);
             }
             catch (Exception ex)

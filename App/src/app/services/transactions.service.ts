@@ -33,7 +33,14 @@ export class TransactionsService extends HttpApiService {
       .catch(super.handleError);
   }
 
-  public getTagDetails(id: number): Observable<TagSummary[]> {
+  public getTagDetails2(id: number): Observable<TagSummary[]> {
+    const url = `${this.baseUrl}/accounts/${id}/TagDetails`;
+    return this.http.get(url)
+      .map(response => response.json() as any)
+      .catch(super.handleError);
+  }
+
+  public getTagDetails(id: number, tag: string): Observable<TagSummary[]> {
     const url = `${this.baseUrl}/accounts/${id}/TagDetails`;
     return this.http.get(url)
       .map(response => response.json() as any)
