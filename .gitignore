@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+desktop/dist/
+desktop/api/
+desktop/app/
 
 #.net core
 [Bb]in/
