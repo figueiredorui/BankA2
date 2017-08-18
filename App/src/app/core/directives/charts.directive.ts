@@ -320,14 +320,14 @@ function getColors(chartType: string, index: number, count: number): Color {
     return generateColor(index);
 }
 
-@NgModule({
-    declarations: [
-        BaseChartDirective
-    ],
-    exports: [
-        BaseChartDirective
-    ],
-    imports: []
-})
-export class ChartsModule {
-}
+// @NgModule({
+//     declarations: [
+//         BaseChartDirective
+//     ],
+//     exports: [
+//         BaseChartDirective
+//     ],
+//     imports: []
+// })
+// export class ChartsModule {
+// }
